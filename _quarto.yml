@@ -1,0 +1,20 @@
+project:
+  type: manuscript
+  output-dir: docs
+
+manuscript:
+  article: index.qmd
+  code-links:
+    - repo
+    - text: Use This Template
+      icon: box-arrow-up-right
+      href: https://github.com/new?template_name=dsan5650-project-deconfounding&template_owner=jpowerj
+      target: _blank
+
+format:
+  html:
+    toc: true
+    number-sections: true
+    css: "./style.css"
+    mainfont: "Caslon, serif"
+  pdf: default

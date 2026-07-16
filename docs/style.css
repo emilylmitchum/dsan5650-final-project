@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Caslon";
+  src: url("assets/adobe-caslon-pro-4.otf") format("opentype");
+}
+
+p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.sc {
+  font-variant: small-caps;
+}
