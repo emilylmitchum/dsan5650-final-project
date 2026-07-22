@@ -1,17 +1,18 @@
 ---
-title: "Ruggedness: The Blessing of Bad Geography in Africa"
+title: "Childcare Costs & Female Labor Force Participation"
 subtitle: "DSAN 5650: Causal Inference for Computational Social Science"
 authors:
-  - name: Nathan Nunn
+  - name: Emily Mitchum
     affiliation: Georgetown University<br>Data Science and Analytics
-    email: nunn@interchange.ubc.ca
+    email: em1569@georgetown.edu
 date: 2026-08-10
 bibliography: Deconfounding_Project.bib
 csl: chicago-17-no-url.csl
 title-block-banner: "#041e42"
 title-block-banner-color: "#e3e3e5"
-abstract: |
-  There is controversy about whether geography matters mainly because of its contemporaneous impact on economic outcomes or because of its interaction with historical events. Looking at terrain ruggedness, we are able to estimate the importance of these two channels. Because rugged terrain hinders trade and most productive activities, it has a negative direct effect on income. However, in Africa rugged terrain afforded protection to those being raided during the slave trades. Since the slave trades retarded subsequent economic development, in Africa ruggedness also has had a historical indirect positive effect on income. Studying all countries worldwide, we find that both effects are significant statistically and that for Africa the indirect positive effect dominates the direct negative effect. Looking within Africa, we provide evidence that the indirect effect operates through the slave trades. We also show that the slave trades, by encouraging population concentrations in rugged areas, have also amplified the negative direct impact of rugged terrain in Africa.
+abstract: | 
+  A substantial body of research has found that higher childcare costs are associated with lower maternal labor-force participation. Research has shown that low-income women, for whom childcare expenses may represent a large share of potential earnings, are the most impacted by rising childcare costs. When childcare costs approach mothers’ earnings, the opportunity cost of remaining in the workforce increases, and choosing to leave the workforce becomes a more attractive option. Leaving the workforce has long-term impacts on women’s earnings and career progression, contributing to what many call the “motherhood penalty”.However, geographic patterns complicate this relationship. Preliminary analysis shows that areas with some of the highest childcare costs also show the highest female labor force participation rates. Taken at face value, this pattern may indicate that high income women are less responsive to changes in childcare costs. Alternatively, the naive association may conceal important differences in the populations and labor markets of high-cost areas. Educational attainment may play an important role in this relationship. Highly educated women generally face a greater opportunity cost of leaving the workforce, but they may also be more likely to pursue geographically mobile and demanding career paths that reduce access to informal family childcare (through relocation) or require greater time commitments. In this case, educational attainment may act as a confounder between the observed geographic relationship between childcare costs and labor-force participation and modify how women respond to childcare constraints. This research paper investigates whether controlling for educational attainment changes the observed relationship between childcare costs and women’s labor-market outcomes, which may help explain persistent gender gaps in earnings despite comparable levels of labor-force participation.
+
 ---
 
 ## Introduction {#sec-1}
