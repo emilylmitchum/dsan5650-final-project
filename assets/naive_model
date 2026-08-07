@@ -1,0 +1,29 @@
+digraph {
+	graph [fontsize=16 label="Naive Model" labelloc=t]
+	subgraph "clustercounties (2653)" {
+		childcare_burden [label="childcare_burden
+~
+Data" shape=box style="rounded, filled"]
+		flpr_logit [label="flpr_logit
+~
+Normal" shape=ellipse style=filled]
+		mu_logit [label="mu_logit
+~
+Deterministic" shape=box]
+		label="counties (2653)" labeljust=r labelloc=b style=rounded
+	}
+	sigma [label="sigma
+~
+Halfnormal" shape=ellipse]
+	bC [label="bC
+~
+Normal" shape=ellipse]
+	b0 [label="b0
+~
+Normal" shape=ellipse]
+	childcare_burden -> mu_logit
+	bC -> mu_logit
+	b0 -> mu_logit
+	sigma -> flpr_logit
+	mu_logit -> flpr_logit
+}
