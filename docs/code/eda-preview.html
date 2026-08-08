@@ -224,8 +224,7 @@
   </ul></li>
   <li><a href="#model-3-education-model" id="toc-model-3-education-model" class="nav-link" data-scroll-target="#model-3-education-model"><span class="header-section-number">7</span> Model 3: Education Model</a></li>
   <li><a href="#model-4-rootedness" id="toc-model-4-rootedness" class="nav-link" data-scroll-target="#model-4-rootedness"><span class="header-section-number">8</span> Model 4: Rootedness</a></li>
-  <li><a href="#county-level-intercept" id="toc-county-level-intercept" class="nav-link" data-scroll-target="#county-level-intercept"><span class="header-section-number">9</span> County Level Intercept</a></li>
-  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">10</span> Sensitivity Analysis</a></li>
+  <li><a href="#not-currently-used-county-level-intercept" id="toc-not-currently-used-county-level-intercept" class="nav-link" data-scroll-target="#not-currently-used-county-level-intercept"><span class="header-section-number">9</span> NOT CURRENTLY USED County Level Intercept</a></li>
   </ul>
 </nav>
 </div>
@@ -2484,7 +2483,7 @@ NUTS: [b0, bC, bG, bB, bCG, bR, sigma]</code></pre>
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [153]:</pre></div><div id="82806053" class="cell" data-execution_count="153">
+<div class="cell-container"><div class="cell-decorator"><pre>In [156]:</pre></div><div id="82806053" class="cell" data-execution_count="156">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.family'</span>] <span class="op">=</span> <span class="st">'sans-serif'</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.sans-serif'</span>] <span class="op">=</span> [<span class="st">'Source Sans Pro'</span>, <span class="st">'Helvetica'</span>, <span class="st">'Arial'</span>, <span class="st">'DejaVu Sans'</span>]</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2519,7 +2518,7 @@ NUTS: [b0, bC, bG, bB, bCG, bR, sigma]</code></pre>
 <span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Predicted maternal FLPR"</span>)</span>
 <span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"../assets/childcare_burden_greedy_flpr.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="">
 <figure class="figure">
@@ -2527,30 +2526,33 @@ NUTS: [b0, bC, bG, bB, bCG, bR, sigma]</code></pre>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Figure size 614.4x460.8 with 0 Axes&gt;</code></pre>
+</div>
 </div></div>
 </section>
-<section id="county-level-intercept" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="county-level-intercept"><span class="header-section-number">9</span> County Level Intercept</h2>
+<section id="not-currently-used-county-level-intercept" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="not-currently-used-county-level-intercept"><span class="header-section-number">9</span> NOT CURRENTLY USED County Level Intercept</h2>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="ef1dcb97" class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>model_df[<span class="st">"county_fips_str"</span>] <span class="op">=</span> (</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"county_fips"</span>]</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    .astype(<span class="bu">str</span>)</span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.replace(<span class="vs">r"</span><span class="ch">\.</span><span class="vs">0</span><span class="dv">$</span><span class="vs">"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.zfill(<span class="dv">5</span>)</span>
-<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb70-7"><a href="#cb70-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-8"><a href="#cb70-8" aria-hidden="true" tabindex="-1"></a>model_df[<span class="st">"state_fips"</span>] <span class="op">=</span> (</span>
-<span id="cb70-9"><a href="#cb70-9" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"county_fips_str"</span>].<span class="bu">str</span>[:<span class="dv">2</span>]</span>
-<span id="cb70-10"><a href="#cb70-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb70-11"><a href="#cb70-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>state_codes, state_idx <span class="op">=</span> np.unique(</span>
-<span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"state_fips"</span>],</span>
-<span id="cb70-14"><a href="#cb70-14" aria-hidden="true" tabindex="-1"></a>    return_inverse<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb70-15"><a href="#cb70-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb70-16"><a href="#cb70-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-17"><a href="#cb70-17" aria-hidden="true" tabindex="-1"></a>model_df[</span>
-<span id="cb70-18"><a href="#cb70-18" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"county_fips_str"</span>, <span class="st">"state_fips"</span>]</span>
-<span id="cb70-19"><a href="#cb70-19" aria-hidden="true" tabindex="-1"></a>].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>model_df[<span class="st">"county_fips_str"</span>] <span class="op">=</span> (</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"county_fips"</span>]</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    .astype(<span class="bu">str</span>)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.replace(<span class="vs">r"</span><span class="ch">\.</span><span class="vs">0</span><span class="dv">$</span><span class="vs">"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.zfill(<span class="dv">5</span>)</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>model_df[<span class="st">"state_fips"</span>] <span class="op">=</span> (</span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"county_fips_str"</span>].<span class="bu">str</span>[:<span class="dv">2</span>]</span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>state_codes, state_idx <span class="op">=</span> np.unique(</span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a>    model_df[<span class="st">"state_fips"</span>],</span>
+<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a>    return_inverse<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a>model_df[</span>
+<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"county_fips_str"</span>, <span class="st">"state_fips"</span>]</span>
+<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <div>
 
@@ -2596,121 +2598,121 @@ NUTS: [b0, bC, bG, bB, bCG, bR, sigma]</code></pre>
 </div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="d4af64c3" class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"counties"</span>: model_df[<span class="st">"county_fips_str"</span>].to_numpy(),</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"states"</span>: state_codes,</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> logit</span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model_df[<span class="st">"flpr_beta"</span>].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>y_logit <span class="op">=</span> logit(y)</span>
-<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> state_model:</span>
-<span id="cb71-14"><a href="#cb71-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-15"><a href="#cb71-15" aria-hidden="true" tabindex="-1"></a>    childcare_burden <span class="op">=</span> pm.Data(</span>
-<span id="cb71-16"><a href="#cb71-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"childcare_burden"</span>,</span>
-<span id="cb71-17"><a href="#cb71-17" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
-<span id="cb71-18"><a href="#cb71-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">"childcare_burden_pct_standardized"</span></span>
-<span id="cb71-19"><a href="#cb71-19" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
-<span id="cb71-20"><a href="#cb71-20" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-21"><a href="#cb71-21" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-22"><a href="#cb71-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-23"><a href="#cb71-23" aria-hidden="true" tabindex="-1"></a>    greedy_profession_share <span class="op">=</span> pm.Data(</span>
-<span id="cb71-24"><a href="#cb71-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"greedy_profession_share"</span>,</span>
-<span id="cb71-25"><a href="#cb71-25" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
-<span id="cb71-26"><a href="#cb71-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">"greedy_profession_pct_standardized"</span></span>
-<span id="cb71-27"><a href="#cb71-27" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
-<span id="cb71-28"><a href="#cb71-28" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-29"><a href="#cb71-29" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-30"><a href="#cb71-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-31"><a href="#cb71-31" aria-hidden="true" tabindex="-1"></a>    bachelors_plus_share <span class="op">=</span> pm.Data(</span>
-<span id="cb71-32"><a href="#cb71-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"bachelors_plus_share"</span>,</span>
-<span id="cb71-33"><a href="#cb71-33" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
-<span id="cb71-34"><a href="#cb71-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"bachelors_plus_share_standardized"</span></span>
-<span id="cb71-35"><a href="#cb71-35" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
-<span id="cb71-36"><a href="#cb71-36" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-37"><a href="#cb71-37" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-38"><a href="#cb71-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-39"><a href="#cb71-39" aria-hidden="true" tabindex="-1"></a>    state_index <span class="op">=</span> pm.Data(</span>
-<span id="cb71-40"><a href="#cb71-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_index"</span>,</span>
-<span id="cb71-41"><a href="#cb71-41" aria-hidden="true" tabindex="-1"></a>        state_idx,</span>
-<span id="cb71-42"><a href="#cb71-42" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-43"><a href="#cb71-43" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-44"><a href="#cb71-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-45"><a href="#cb71-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Overall intercept and slopes</span></span>
-<span id="cb71-46"><a href="#cb71-46" aria-hidden="true" tabindex="-1"></a>    b0 <span class="op">=</span> pm.Normal(</span>
-<span id="cb71-47"><a href="#cb71-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b0"</span>,</span>
-<span id="cb71-48"><a href="#cb71-48" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span>logit(<span class="fl">0.70</span>),</span>
-<span id="cb71-49"><a href="#cb71-49" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb71-50"><a href="#cb71-50" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-51"><a href="#cb71-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-52"><a href="#cb71-52" aria-hidden="true" tabindex="-1"></a>    b_childcare_burden <span class="op">=</span> pm.Normal(<span class="st">"b_childcare_burden"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
-<span id="cb71-53"><a href="#cb71-53" aria-hidden="true" tabindex="-1"></a>    b_greedy <span class="op">=</span> pm.Normal(<span class="st">"b_greedy"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
-<span id="cb71-54"><a href="#cb71-54" aria-hidden="true" tabindex="-1"></a>    b3 <span class="op">=</span> pm.Normal(<span class="st">"b3"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
-<span id="cb71-55"><a href="#cb71-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-56"><a href="#cb71-56" aria-hidden="true" tabindex="-1"></a>    b_interaction <span class="op">=</span> pm.Normal(</span>
-<span id="cb71-57"><a href="#cb71-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_interaction"</span>,</span>
-<span id="cb71-58"><a href="#cb71-58" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>,</span>
-<span id="cb71-59"><a href="#cb71-59" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.10</span>,</span>
-<span id="cb71-60"><a href="#cb71-60" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-61"><a href="#cb71-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-62"><a href="#cb71-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># State-level variation</span></span>
-<span id="cb71-63"><a href="#cb71-63" aria-hidden="true" tabindex="-1"></a>    sigma_state <span class="op">=</span> pm.HalfNormal(</span>
-<span id="cb71-64"><a href="#cb71-64" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma_state"</span>,</span>
-<span id="cb71-65"><a href="#cb71-65" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb71-66"><a href="#cb71-66" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-67"><a href="#cb71-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-68"><a href="#cb71-68" aria-hidden="true" tabindex="-1"></a>    state_offset <span class="op">=</span> pm.Normal(</span>
-<span id="cb71-69"><a href="#cb71-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_offset"</span>,</span>
-<span id="cb71-70"><a href="#cb71-70" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb71-71"><a href="#cb71-71" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb71-72"><a href="#cb71-72" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"states"</span>,</span>
-<span id="cb71-73"><a href="#cb71-73" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-74"><a href="#cb71-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-75"><a href="#cb71-75" aria-hidden="true" tabindex="-1"></a>    state_effect <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb71-76"><a href="#cb71-76" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_effect"</span>,</span>
-<span id="cb71-77"><a href="#cb71-77" aria-hidden="true" tabindex="-1"></a>        state_offset <span class="op">*</span> sigma_state,</span>
-<span id="cb71-78"><a href="#cb71-78" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"states"</span>,</span>
-<span id="cb71-79"><a href="#cb71-79" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-80"><a href="#cb71-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-81"><a href="#cb71-81" aria-hidden="true" tabindex="-1"></a>    mu_logit <span class="op">=</span> pm.Deterministic(</span>
-<span id="cb71-82"><a href="#cb71-82" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mu_logit"</span>,</span>
-<span id="cb71-83"><a href="#cb71-83" aria-hidden="true" tabindex="-1"></a>        (</span>
-<span id="cb71-84"><a href="#cb71-84" aria-hidden="true" tabindex="-1"></a>            b0</span>
-<span id="cb71-85"><a href="#cb71-85" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_childcare_burden <span class="op">*</span> childcare_burden</span>
-<span id="cb71-86"><a href="#cb71-86" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_greedy <span class="op">*</span> greedy_profession_share</span>
-<span id="cb71-87"><a href="#cb71-87" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b3 <span class="op">*</span> bachelors_plus_share</span>
-<span id="cb71-88"><a href="#cb71-88" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_interaction</span>
-<span id="cb71-89"><a href="#cb71-89" aria-hidden="true" tabindex="-1"></a>              <span class="op">*</span> childcare_burden</span>
-<span id="cb71-90"><a href="#cb71-90" aria-hidden="true" tabindex="-1"></a>              <span class="op">*</span> greedy_profession_share</span>
-<span id="cb71-91"><a href="#cb71-91" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> state_effect[state_index]</span>
-<span id="cb71-92"><a href="#cb71-92" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb71-93"><a href="#cb71-93" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-94"><a href="#cb71-94" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-95"><a href="#cb71-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-96"><a href="#cb71-96" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(</span>
-<span id="cb71-97"><a href="#cb71-97" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma"</span>,</span>
-<span id="cb71-98"><a href="#cb71-98" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb71-99"><a href="#cb71-99" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-100"><a href="#cb71-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-101"><a href="#cb71-101" aria-hidden="true" tabindex="-1"></a>    flpr_logit <span class="op">=</span> pm.Normal(</span>
-<span id="cb71-102"><a href="#cb71-102" aria-hidden="true" tabindex="-1"></a>        <span class="st">"flpr_logit"</span>,</span>
-<span id="cb71-103"><a href="#cb71-103" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span>mu_logit,</span>
-<span id="cb71-104"><a href="#cb71-104" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span>sigma,</span>
-<span id="cb71-105"><a href="#cb71-105" aria-hidden="true" tabindex="-1"></a>        observed<span class="op">=</span>y_logit,</span>
-<span id="cb71-106"><a href="#cb71-106" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
-<span id="cb71-107"><a href="#cb71-107" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-108"><a href="#cb71-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-109"><a href="#cb71-109" aria-hidden="true" tabindex="-1"></a>    state_idata <span class="op">=</span> pm.sample(</span>
-<span id="cb71-110"><a href="#cb71-110" aria-hidden="true" tabindex="-1"></a>        draws<span class="op">=</span><span class="dv">1000</span>,</span>
-<span id="cb71-111"><a href="#cb71-111" aria-hidden="true" tabindex="-1"></a>        tune<span class="op">=</span><span class="dv">1000</span>,</span>
-<span id="cb71-112"><a href="#cb71-112" aria-hidden="true" tabindex="-1"></a>        chains<span class="op">=</span><span class="dv">4</span>,</span>
-<span id="cb71-113"><a href="#cb71-113" aria-hidden="true" tabindex="-1"></a>        target_accept<span class="op">=</span><span class="fl">0.9</span>,</span>
-<span id="cb71-114"><a href="#cb71-114" aria-hidden="true" tabindex="-1"></a>        random_seed<span class="op">=</span><span class="dv">42</span>,</span>
-<span id="cb71-115"><a href="#cb71-115" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> {</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"counties"</span>: model_df[<span class="st">"county_fips_str"</span>].to_numpy(),</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"states"</span>: state_codes,</span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> logit</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymc <span class="im">as</span> pm</span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model_df[<span class="st">"flpr_beta"</span>].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb72-11"><a href="#cb72-11" aria-hidden="true" tabindex="-1"></a>y_logit <span class="op">=</span> logit(y)</span>
+<span id="cb72-12"><a href="#cb72-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-13"><a href="#cb72-13" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pm.Model(coords<span class="op">=</span>coords) <span class="im">as</span> state_model:</span>
+<span id="cb72-14"><a href="#cb72-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-15"><a href="#cb72-15" aria-hidden="true" tabindex="-1"></a>    childcare_burden <span class="op">=</span> pm.Data(</span>
+<span id="cb72-16"><a href="#cb72-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"childcare_burden"</span>,</span>
+<span id="cb72-17"><a href="#cb72-17" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
+<span id="cb72-18"><a href="#cb72-18" aria-hidden="true" tabindex="-1"></a>            <span class="st">"childcare_burden_pct_standardized"</span></span>
+<span id="cb72-19"><a href="#cb72-19" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
+<span id="cb72-20"><a href="#cb72-20" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-21"><a href="#cb72-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-22"><a href="#cb72-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-23"><a href="#cb72-23" aria-hidden="true" tabindex="-1"></a>    greedy_profession_share <span class="op">=</span> pm.Data(</span>
+<span id="cb72-24"><a href="#cb72-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"greedy_profession_share"</span>,</span>
+<span id="cb72-25"><a href="#cb72-25" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
+<span id="cb72-26"><a href="#cb72-26" aria-hidden="true" tabindex="-1"></a>            <span class="st">"greedy_profession_pct_standardized"</span></span>
+<span id="cb72-27"><a href="#cb72-27" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
+<span id="cb72-28"><a href="#cb72-28" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-29"><a href="#cb72-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-30"><a href="#cb72-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-31"><a href="#cb72-31" aria-hidden="true" tabindex="-1"></a>    bachelors_plus_share <span class="op">=</span> pm.Data(</span>
+<span id="cb72-32"><a href="#cb72-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"bachelors_plus_share"</span>,</span>
+<span id="cb72-33"><a href="#cb72-33" aria-hidden="true" tabindex="-1"></a>        model_df[</span>
+<span id="cb72-34"><a href="#cb72-34" aria-hidden="true" tabindex="-1"></a>            <span class="st">"bachelors_plus_share_standardized"</span></span>
+<span id="cb72-35"><a href="#cb72-35" aria-hidden="true" tabindex="-1"></a>        ].to_numpy(dtype<span class="op">=</span><span class="bu">float</span>),</span>
+<span id="cb72-36"><a href="#cb72-36" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-37"><a href="#cb72-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-38"><a href="#cb72-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-39"><a href="#cb72-39" aria-hidden="true" tabindex="-1"></a>    state_index <span class="op">=</span> pm.Data(</span>
+<span id="cb72-40"><a href="#cb72-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_index"</span>,</span>
+<span id="cb72-41"><a href="#cb72-41" aria-hidden="true" tabindex="-1"></a>        state_idx,</span>
+<span id="cb72-42"><a href="#cb72-42" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-43"><a href="#cb72-43" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-44"><a href="#cb72-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-45"><a href="#cb72-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Overall intercept and slopes</span></span>
+<span id="cb72-46"><a href="#cb72-46" aria-hidden="true" tabindex="-1"></a>    b0 <span class="op">=</span> pm.Normal(</span>
+<span id="cb72-47"><a href="#cb72-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b0"</span>,</span>
+<span id="cb72-48"><a href="#cb72-48" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span>logit(<span class="fl">0.70</span>),</span>
+<span id="cb72-49"><a href="#cb72-49" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb72-50"><a href="#cb72-50" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-51"><a href="#cb72-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-52"><a href="#cb72-52" aria-hidden="true" tabindex="-1"></a>    b_childcare_burden <span class="op">=</span> pm.Normal(<span class="st">"b_childcare_burden"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
+<span id="cb72-53"><a href="#cb72-53" aria-hidden="true" tabindex="-1"></a>    b_greedy <span class="op">=</span> pm.Normal(<span class="st">"b_greedy"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
+<span id="cb72-54"><a href="#cb72-54" aria-hidden="true" tabindex="-1"></a>    b3 <span class="op">=</span> pm.Normal(<span class="st">"b3"</span>, <span class="dv">0</span>, <span class="fl">0.15</span>)</span>
+<span id="cb72-55"><a href="#cb72-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-56"><a href="#cb72-56" aria-hidden="true" tabindex="-1"></a>    b_interaction <span class="op">=</span> pm.Normal(</span>
+<span id="cb72-57"><a href="#cb72-57" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_interaction"</span>,</span>
+<span id="cb72-58"><a href="#cb72-58" aria-hidden="true" tabindex="-1"></a>        <span class="dv">0</span>,</span>
+<span id="cb72-59"><a href="#cb72-59" aria-hidden="true" tabindex="-1"></a>        <span class="fl">0.10</span>,</span>
+<span id="cb72-60"><a href="#cb72-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-61"><a href="#cb72-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-62"><a href="#cb72-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># State-level variation</span></span>
+<span id="cb72-63"><a href="#cb72-63" aria-hidden="true" tabindex="-1"></a>    sigma_state <span class="op">=</span> pm.HalfNormal(</span>
+<span id="cb72-64"><a href="#cb72-64" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma_state"</span>,</span>
+<span id="cb72-65"><a href="#cb72-65" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb72-66"><a href="#cb72-66" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-67"><a href="#cb72-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-68"><a href="#cb72-68" aria-hidden="true" tabindex="-1"></a>    state_offset <span class="op">=</span> pm.Normal(</span>
+<span id="cb72-69"><a href="#cb72-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_offset"</span>,</span>
+<span id="cb72-70"><a href="#cb72-70" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb72-71"><a href="#cb72-71" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb72-72"><a href="#cb72-72" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"states"</span>,</span>
+<span id="cb72-73"><a href="#cb72-73" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-74"><a href="#cb72-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-75"><a href="#cb72-75" aria-hidden="true" tabindex="-1"></a>    state_effect <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb72-76"><a href="#cb72-76" aria-hidden="true" tabindex="-1"></a>        <span class="st">"state_effect"</span>,</span>
+<span id="cb72-77"><a href="#cb72-77" aria-hidden="true" tabindex="-1"></a>        state_offset <span class="op">*</span> sigma_state,</span>
+<span id="cb72-78"><a href="#cb72-78" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"states"</span>,</span>
+<span id="cb72-79"><a href="#cb72-79" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-80"><a href="#cb72-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-81"><a href="#cb72-81" aria-hidden="true" tabindex="-1"></a>    mu_logit <span class="op">=</span> pm.Deterministic(</span>
+<span id="cb72-82"><a href="#cb72-82" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mu_logit"</span>,</span>
+<span id="cb72-83"><a href="#cb72-83" aria-hidden="true" tabindex="-1"></a>        (</span>
+<span id="cb72-84"><a href="#cb72-84" aria-hidden="true" tabindex="-1"></a>            b0</span>
+<span id="cb72-85"><a href="#cb72-85" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_childcare_burden <span class="op">*</span> childcare_burden</span>
+<span id="cb72-86"><a href="#cb72-86" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_greedy <span class="op">*</span> greedy_profession_share</span>
+<span id="cb72-87"><a href="#cb72-87" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b3 <span class="op">*</span> bachelors_plus_share</span>
+<span id="cb72-88"><a href="#cb72-88" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> b_interaction</span>
+<span id="cb72-89"><a href="#cb72-89" aria-hidden="true" tabindex="-1"></a>              <span class="op">*</span> childcare_burden</span>
+<span id="cb72-90"><a href="#cb72-90" aria-hidden="true" tabindex="-1"></a>              <span class="op">*</span> greedy_profession_share</span>
+<span id="cb72-91"><a href="#cb72-91" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> state_effect[state_index]</span>
+<span id="cb72-92"><a href="#cb72-92" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb72-93"><a href="#cb72-93" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-94"><a href="#cb72-94" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-95"><a href="#cb72-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-96"><a href="#cb72-96" aria-hidden="true" tabindex="-1"></a>    sigma <span class="op">=</span> pm.HalfNormal(</span>
+<span id="cb72-97"><a href="#cb72-97" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma"</span>,</span>
+<span id="cb72-98"><a href="#cb72-98" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb72-99"><a href="#cb72-99" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-100"><a href="#cb72-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-101"><a href="#cb72-101" aria-hidden="true" tabindex="-1"></a>    flpr_logit <span class="op">=</span> pm.Normal(</span>
+<span id="cb72-102"><a href="#cb72-102" aria-hidden="true" tabindex="-1"></a>        <span class="st">"flpr_logit"</span>,</span>
+<span id="cb72-103"><a href="#cb72-103" aria-hidden="true" tabindex="-1"></a>        mu<span class="op">=</span>mu_logit,</span>
+<span id="cb72-104"><a href="#cb72-104" aria-hidden="true" tabindex="-1"></a>        sigma<span class="op">=</span>sigma,</span>
+<span id="cb72-105"><a href="#cb72-105" aria-hidden="true" tabindex="-1"></a>        observed<span class="op">=</span>y_logit,</span>
+<span id="cb72-106"><a href="#cb72-106" aria-hidden="true" tabindex="-1"></a>        dims<span class="op">=</span><span class="st">"counties"</span>,</span>
+<span id="cb72-107"><a href="#cb72-107" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-108"><a href="#cb72-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-109"><a href="#cb72-109" aria-hidden="true" tabindex="-1"></a>    state_idata <span class="op">=</span> pm.sample(</span>
+<span id="cb72-110"><a href="#cb72-110" aria-hidden="true" tabindex="-1"></a>        draws<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb72-111"><a href="#cb72-111" aria-hidden="true" tabindex="-1"></a>        tune<span class="op">=</span><span class="dv">1000</span>,</span>
+<span id="cb72-112"><a href="#cb72-112" aria-hidden="true" tabindex="-1"></a>        chains<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb72-113"><a href="#cb72-113" aria-hidden="true" tabindex="-1"></a>        target_accept<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb72-114"><a href="#cb72-114" aria-hidden="true" tabindex="-1"></a>        random_seed<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb72-115"><a href="#cb72-115" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Initializing NUTS using jitter+adapt_diag...
 Multiprocess sampling (4 chains in 4 jobs)
@@ -2729,16 +2731,16 @@ NUTS: [b0, b_childcare_burden, b_greedy, b3, b_interaction, sigma_state, state_o
 </div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="6928179a" class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>az.summary(</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    state_idata,</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[</span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_childcare_burden"</span>,</span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_greedy"</span>,</span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b3"</span>,</span>
-<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_interaction"</span>,</span>
-<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma_state"</span>,</span>
-<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>az.summary(</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    state_idata,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    var_names<span class="op">=</span>[</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_childcare_burden"</span>,</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_greedy"</span>,</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b3"</span>,</span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"b_interaction"</span>,</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sigma_state"</span>,</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="51">
 <div>
 
@@ -2823,298 +2825,6 @@ NUTS: [b0, b_childcare_burden, b_greedy, b3, b_interaction, sigma_state, state_o
 </table>
 
 </div>
-</div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="9e08c249" class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> arviz <span class="im">as</span> az</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> expit</span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>posterior <span class="op">=</span> state_idata.posterior</span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>b0 <span class="op">=</span> posterior[<span class="st">"b0"</span>]</span>
-<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>b_childcare_burden <span class="op">=</span> posterior[<span class="st">"b_childcare_burden"</span>]</span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>b_greedy <span class="op">=</span> posterior[<span class="st">"b_greedy"</span>]</span>
-<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>b_interaction <span class="op">=</span> posterior[<span class="st">"b_interaction"</span>]</span>
-<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> {}</span>
-<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> label, greedy <span class="kw">in</span> {</span>
-<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"low_greedy"</span>: <span class="op">-</span><span class="dv">1</span>,</span>
-<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"average_greedy"</span>: <span class="dv">0</span>,</span>
-<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"high_greedy"</span>: <span class="dv">1</span>,</span>
-<span id="cb75-18"><a href="#cb75-18" aria-hidden="true" tabindex="-1"></a>}.items():</span>
-<span id="cb75-19"><a href="#cb75-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-20"><a href="#cb75-20" aria-hidden="true" tabindex="-1"></a>    eta_at_average_burden <span class="op">=</span> (</span>
-<span id="cb75-21"><a href="#cb75-21" aria-hidden="true" tabindex="-1"></a>        b0</span>
-<span id="cb75-22"><a href="#cb75-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> b_greedy <span class="op">*</span> greedy</span>
-<span id="cb75-23"><a href="#cb75-23" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb75-24"><a href="#cb75-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-25"><a href="#cb75-25" aria-hidden="true" tabindex="-1"></a>    eta_at_high_burden <span class="op">=</span> (</span>
-<span id="cb75-26"><a href="#cb75-26" aria-hidden="true" tabindex="-1"></a>        b0</span>
-<span id="cb75-27"><a href="#cb75-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> b_childcare_burden</span>
-<span id="cb75-28"><a href="#cb75-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> b_greedy <span class="op">*</span> greedy</span>
-<span id="cb75-29"><a href="#cb75-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> b_interaction <span class="op">*</span> greedy</span>
-<span id="cb75-30"><a href="#cb75-30" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb75-31"><a href="#cb75-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-32"><a href="#cb75-32" aria-hidden="true" tabindex="-1"></a>    effects[<span class="ss">f"burden_change_</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">_pp"</span>] <span class="op">=</span> <span class="dv">100</span> <span class="op">*</span> (</span>
-<span id="cb75-33"><a href="#cb75-33" aria-hidden="true" tabindex="-1"></a>        expit(eta_at_high_burden)</span>
-<span id="cb75-34"><a href="#cb75-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">-</span> expit(eta_at_average_burden)</span>
-<span id="cb75-35"><a href="#cb75-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb75-36"><a href="#cb75-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-37"><a href="#cb75-37" aria-hidden="true" tabindex="-1"></a>az.summary(</span>
-<span id="cb75-38"><a href="#cb75-38" aria-hidden="true" tabindex="-1"></a>    xr.Dataset(effects)</span>
-<span id="cb75-39"><a href="#cb75-39" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
-<div>
-
-
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mean</th>
-<th data-quarto-table-cell-role="th">sd</th>
-<th data-quarto-table-cell-role="th">eti89_lb</th>
-<th data-quarto-table-cell-role="th">eti89_ub</th>
-<th data-quarto-table-cell-role="th">ess_bulk</th>
-<th data-quarto-table-cell-role="th">ess_tail</th>
-<th data-quarto-table-cell-role="th">r_hat</th>
-<th data-quarto-table-cell-role="th">mcse_mean</th>
-<th data-quarto-table-cell-role="th">mcse_sd</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">burden_change_low_greedy_pp</td>
-<td>-3.18</td>
-<td>1.02</td>
-<td>-4.8</td>
-<td>-1.6</td>
-<td>6644</td>
-<td>3537</td>
-<td>1.00</td>
-<td>0.012</td>
-<td>0.0092</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">burden_change_average_greedy_pp</td>
-<td>-1.85</td>
-<td>0.74</td>
-<td>-3</td>
-<td>-0.69</td>
-<td>5933</td>
-<td>3468</td>
-<td>1.00</td>
-<td>0.0097</td>
-<td>0.0069</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">burden_change_high_greedy_pp</td>
-<td>-0.63</td>
-<td>0.84</td>
-<td>-2</td>
-<td>0.7</td>
-<td>6061</td>
-<td>3524</td>
-<td>1.00</td>
-<td>0.011</td>
-<td>0.0076</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div></div>
-</section>
-<section id="sensitivity-analysis" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">10</span> Sensitivity Analysis</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="9e2c43bd" class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sensemakr <span class="im">as</span> smkr</span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>sensitivity_df <span class="op">=</span> model_df.copy()</span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome used in the PyMC model</span></span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>sensitivity_df[<span class="st">"flpr_logit"</span>] <span class="op">=</span> logit(</span>
-<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    sensitivity_df[<span class="st">"flpr_beta"</span>].astype(<span class="bu">float</span>)</span>
-<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Shorter variable names make the formulas easier to manage</span></span>
-<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>sensitivity_df[<span class="st">"burden"</span>] <span class="op">=</span> (</span>
-<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>    sensitivity_df[<span class="st">"childcare_burden_pct_standardized"</span>]</span>
-<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>sensitivity_df[<span class="st">"greedy"</span>] <span class="op">=</span> (</span>
-<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>    sensitivity_df[<span class="st">"greedy_profession_pct_standardized"</span>]</span>
-<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-19"><a href="#cb76-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-20"><a href="#cb76-20" aria-hidden="true" tabindex="-1"></a>sensitivity_df[<span class="st">"bachelors"</span>] <span class="op">=</span> (</span>
-<span id="cb76-21"><a href="#cb76-21" aria-hidden="true" tabindex="-1"></a>    sensitivity_df[<span class="st">"bachelors_plus_share_standardized"</span>]</span>
-<span id="cb76-22"><a href="#cb76-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-23"><a href="#cb76-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-24"><a href="#cb76-24" aria-hidden="true" tabindex="-1"></a>sensitivity_df[<span class="st">"born_in_state"</span>] <span class="op">=</span> (</span>
-<span id="cb76-25"><a href="#cb76-25" aria-hidden="true" tabindex="-1"></a>    sensitivity_df[<span class="st">'born_in_state_pct_standardized'</span>]</span>
-<span id="cb76-26"><a href="#cb76-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb76-27"><a href="#cb76-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-28"><a href="#cb76-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-29"><a href="#cb76-29" aria-hidden="true" tabindex="-1"></a>ols_model <span class="op">=</span> smf.ols(</span>
-<span id="cb76-30"><a href="#cb76-30" aria-hidden="true" tabindex="-1"></a>    formula<span class="op">=</span>(</span>
-<span id="cb76-31"><a href="#cb76-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"flpr_logit ~ "</span></span>
-<span id="cb76-32"><a href="#cb76-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"burden * greedy "</span></span>
-<span id="cb76-33"><a href="#cb76-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"+ bachelors + born_in_state"</span></span>
-<span id="cb76-34"><a href="#cb76-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb76-35"><a href="#cb76-35" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>sensitivity_df,</span>
-<span id="cb76-36"><a href="#cb76-36" aria-hidden="true" tabindex="-1"></a>).fit()</span>
-<span id="cb76-37"><a href="#cb76-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-38"><a href="#cb76-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ols_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:             flpr_logit   R-squared:                       0.024
-Model:                            OLS   Adj. R-squared:                  0.022
-Method:                 Least Squares   F-statistic:                     13.11
-Date:                Wed, 05 Aug 2026   Prob (F-statistic):           1.23e-12
-Time:                        22:16:07   Log-Likelihood:                -5051.2
-No. Observations:                2653   AIC:                         1.011e+04
-Df Residuals:                    2647   BIC:                         1.015e+04
-Df Model:                           5                                         
-Covariance Type:            nonrobust                                         
-=================================================================================
-                    coef    std err          t      P&gt;|t|      [0.025      0.975]
----------------------------------------------------------------------------------
-Intercept         1.1726      0.032     37.072      0.000       1.111       1.235
-burden           -0.1061      0.032     -3.310      0.001      -0.169      -0.043
-greedy            0.0846      0.038      2.222      0.026       0.010       0.159
-burden:greedy     0.0719      0.029      2.454      0.014       0.014       0.129
-bachelors         0.1679      0.041      4.078      0.000       0.087       0.249
-born_in_state     0.1870      0.037      5.111      0.000       0.115       0.259
-==============================================================================
-Omnibus:                     1214.995   Durbin-Watson:                   1.941
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):            29013.352
-Skew:                           1.626   Prob(JB):                         0.00
-Kurtosis:                      18.871   Cond. No.                         2.21
-==============================================================================
-
-Notes:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
-</div>
-</div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="90d41a26" class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>education_sense <span class="op">=</span> smkr.Sensemakr(model <span class="op">=</span> ols_model,</span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>                              treatment <span class="op">=</span> <span class="st">"burden"</span>,</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>                              benchmark_covariates <span class="op">=</span> [<span class="st">"bachelors"</span>],</span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>                              kd <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>education_sense.ovb_minimal_reporting(<span class="bu">format</span> <span class="op">=</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/opt/anaconda3/envs/MyNewEnv/lib/python3.12/site-packages/sensemakr/sensitivity_statistics.py:177: FutureWarning:
-
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-
-/opt/anaconda3/envs/MyNewEnv/lib/python3.12/site-packages/sensemakr/sensitivity_statistics.py:177: FutureWarning:
-
-Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th" style="text-align: left; border-bottom: 1px solid transparent; border-top: 1px solid black;"></th>
-<th colspan="6" data-quarto-table-cell-role="th" style="text-align: center; border-bottom: 1px solid black; border-top: 1px solid black;">Outcome: flpr_logit</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th" style="text-align: left; border-top: 1px solid black;">Treatment</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">Est.</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">S.E.</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">t-value</th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">R<sup>2</sup><sub>Y~D|X</sub></th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">RV<sub>q = 1</sub></th>
-<th data-quarto-table-cell-role="th" style="text-align: right; border-top: 1px solid black;">RV<sub>q = 1, α = 0.05</sub></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left; border-bottom: 1px solid black;"><em>burden</em></td>
-<td style="text-align: right; border-bottom: 1px solid black;">-0.106</td>
-<td style="text-align: right; border-bottom: 1px solid black;">0.032</td>
-<td style="text-align: right; border-bottom: 1px solid black;">-3.3</td>
-<td style="text-align: right; border-bottom: 1px solid black;">0.4%</td>
-<td style="text-align: right; border-bottom: 1px solid black;">6.2%</td>
-<td style="text-align: right; border-bottom: 1px solid black;">2.6%</td>
-</tr>
-</tbody>
-<tbody>
-<tr class="odd">
-<td colspan="7" style="text-align: right; border-top: 1px solid black; border-bottom: 1px solid transparent; font-size: 11px;">Note: df = 2647; Bound ( 1x bachelors ): R<sup>2</sup><sub>Y~Z|X,D</sub> = 0.6%, R<sup>2</sup><sub>D~Z|X</sub> =0.1%</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="54">
-
-th style=“text-align:left;border-bottom: 1px solid transparent;border-top: 1px solid black”&gt;
-
-th colspan = 6 style=“text-align:center;border-bottom: 1px solid black;border-top: 1px solid black”&gt; Outcome: flpr_logit
-
-th style=“text-align:left;border-top: 1px solid black”&gt; Treatment
-
-th style=“text-align:right;border-top: 1px solid black”&gt; Est.
-
-th style=“text-align:right;border-top: 1px solid black”&gt; S.E.
-
-th style=“text-align:right;border-top: 1px solid black”&gt; t-value
-
-th style=“text-align:right;border-top: 1px solid black”&gt; R<sup>2</sup><sub>Y~D|X</sub>
-th style=“text-align:right;border-top: 1px solid black”&gt; RV<sub>q = 1</sub>
-th style=“text-align:right;border-top: 1px solid black”&gt; RV<sub>q = 1, α = 0.05</sub>
-td style=“text-align:left; border-bottom: 1px solid black”&gt;<i>burden</i>
-td style=“text-align:right;border-bottom: 1px solid black”&gt;-0.106
-
-td style=“text-align:right;border-bottom: 1px solid black”&gt;0.032
-
-td style=“text-align:right;border-bottom: 1px solid black”&gt;-3.3
-
-td style=“text-align:right;border-bottom: 1px solid black”&gt;0.4%
-
-td style=“text-align:right;border-bottom: 1px solid black”&gt;6.2%
-
-td style=“text-align:right;border-bottom: 1px solid black”&gt;2.6%
-
-&lt;td colspan = 7 style='text-align:right;border-top: 1px solid black;border-bottom: 1px solid transparent;font-size:11px'&gt;Note: df = 2647; Bound ( 1x bachelors ): R<sup>2</sup><sub>Y~Z|X,D</sub> = 0.6%, R<sup>2</sup><sub>D~Z|X</sub> =0.1%
-<table style="\'align:center\'">
-
-<thead>
-
-<tr>
-
-</tr>
-
-<tr>
-
-
-
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-
-</tr>
-
-</tbody>
-
-<tbody><tr>
-
-</tr>
-
-</tbody></table>
 </div>
 </div></div>
 </section>

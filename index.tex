@@ -93,6 +93,39 @@
 \makeatother
 
 
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
 
@@ -179,22 +212,22 @@ costs are positively associated with increased maternal labor-force
 participation. However, when analyzing the elasticity of employment to
 childcare prices, researchers find heterogeneity across various
 geographies and time-periods. This may be attributable to differences in
-educational attainment, labor force attachment, and other factors
-(Morrissey 2016). This research paper uses U.S. county-level data to
-examine whether the association between childcare affordability and
-maternal labor-force participation among women with children under age
-six varies across local occupational contexts. I present a Bayesian
-logit-normal regression model that estimates maternal labor force
-participation as a function of childcare affordability, the county share
-of workers in ``greedy'' occupations, educational attainment, geographic
-rootedness, and an interaction between childcare burden and occupational
-structure. Aligning with existing research, I find that higher childcare
-burden is associated with lower maternal labor force participation.
-However, I also find that this negative association becomes weaker as a
-county's concentration of women in greedy occupations increases.
-Educational attainment and geographic rootedness are also moderately
-associated with maternal labor force participation, while
-greedy-occupation-share is weakly associated.
+educational attainment, labor force attachment, and other factors (.
+This research paper uses U.S. county-level data to examine whether the
+association between childcare affordability and maternal labor-force
+participation among women with children under age six varies across
+local occupational contexts. I present a Bayesian logit-normal
+regression model that estimates maternal labor force participation as a
+function of childcare affordability, the county share of workers in
+``greedy'' occupations, educational attainment, geographic rootedness,
+and an interaction between childcare burden and occupational structure.
+Aligning with existing research, I find that higher childcare burden is
+associated with lower maternal labor force participation. However, I
+also find that this negative association becomes weaker as a county's
+concentration of women in greedy occupations increases. Educational
+attainment and geographic rootedness are also moderately associated with
+maternal labor force participation, while greedy-occupation-share is
+weakly associated.
 \end{abstract}
 
 
@@ -213,8 +246,8 @@ community on the relationship between childcare affordability and
 maternal labor force participation. Research has appropriately paid
 particular attention to low-income women, for whom childcare expenses
 represent a large share of potential earnings, and whose labor market
-attachment is the most impacted by childcare costs
-(https://www.jstor.org/stable/41238095).
+attachment is the most impacted by childcare costs (Havnes and Mogstad
+(2011)).
 
 Several studies have concluded that reducing childcare costs would
 increase maternal employment, especially among low-income women. The
@@ -258,22 +291,23 @@ years after birth. For instance, Burgess, Chien and Enchautegui find
 that increasing Child Care and Development Block Grant (CCDBG)
 expenditures by 10-percent per child would increase employment levels
 among low-income women with young children by between half to two-thirds
-of a percent
-(https://aspe.hhs.gov/sites/default/files/migrated\_legacy\_files//171051/EffectsCCSubsidiesMaternalLFPBrief.pdf).
+of a percent ({``The {Effects} of {Child} {Care} {Subsidies} on
+{Maternal} {Labor} {Force} {Participation} in the {United} {States}''}
+(2016)).
 
 Still, the majority of U.S. childcare assistance programs reach only a
 subset of families and are concentrated among lower-income households.
 The Child Care and Development Block Grant (CCDBG) is only available for
 families who make less than 85\% of their state median income. Even
 amongst those that meet requirements, federal childcare subsidies only
-reach approximately 14\% of eligible families
-(https://aspe.hhs.gov/reports/factsheet-estimates-child-care-eligibility-receipt-fiscal-year-2017),
-and state subsidies reach only approximately 22\% of eligible families.
-Tax incentives, including the Child and Dependent Care Tax Credit, also
-benefit a minority of families with children due to its non-refundable
-structure, steep income phase-downs, and restrictions that require two
-working parents.
-(https://www2.census.gov/library/working-papers/2025/adrm/ces/CES-WP-25-25.pdf)
+reach approximately 14\% of eligible families ({``Factsheet: {Estimates}
+of {Child} {Care} {Eligibility} and {Receipt} for {Fiscal} {Year}
+2017''} (2020)), and state subsidies reach only approximately 22\% of
+eligible families. Tax incentives, including the Child and Dependent
+Care Tax Credit, also benefit a minority of families with children due
+to its non-refundable structure, steep income phase-downs, and
+restrictions that require two working parents. (Araujo, McBride, and
+Sandler (2025))
 
 While most childcare programs focus on low-income families, evidence
 from universal early childcare programs suggests that reducing childcare
@@ -282,15 +316,13 @@ women. Two years after implementing a universal pre-kindergarten program
 in 2008, D.C. observed a 12\% increase in the maternal labor force
 participation rate. A study from the Center for American Progress found
 that this increase was strongly associated with implementation of
-universal preschool
-(https://www.americanprogress.org/article/effects-universal-preschool-washington-d-c/).
-This example is particularly important given D.C.'s occupational
-profile, with an unusually large concentration of highly-educated women
-in high-paying, senior positions. This example motivates the current
-analysis, which seeks to understand the varying slope of the
-relationship between childcare affordability and labor force
-participation among counties with different female occupational
-profiles.
+universal preschool (Malik, Rasheed (2018)). This example is
+particularly important given D.C.'s occupational profile, with an
+unusually large concentration of highly-educated women in high-paying,
+senior positions. This example motivates the current analysis, which
+seeks to understand the varying slope of the relationship between
+childcare affordability and labor force participation among counties
+with different female occupational profiles.
 
 \subsubsection{Occupational
 ``Greediness''}\label{occupational-greediness}
@@ -300,18 +332,18 @@ who has extensively studied ``greedy occupations''. Goldin finds that
 greedy occupations lead women to remain employed, even as they have
 children, but earn less over time, due to childcare responsibilities
 that prevent them from meeting demanding work requirements, including
-long hours and travel (Goldin 2014). Women's role as primary care-givers
-leads them to take career breaks, reduce hours, and trade high-stress
-roles for flexible roles.
+long hours and travel (Goldin (2014)). Women's role as primary
+care-givers leads them to take career breaks, reduce hours, and trade
+high-stress roles for flexible roles.
 
 Goldin identifies finance, law, consulting, and corporate management as
 common greedy occupations, characterized by time inflexibility, low work
 substitutability, and non-linear pay. These occupations drive gender pay
 differentials, since women are more likely to experience childcare
 related work interruptions and less likely to be able to work rigid
-schedules (Sobeck 2024). Using Goldin's research as a framework, I model
-county-level occupational greediness by sex using U.S. Census adult
-employment statistics.
+schedules (Sobeck (2024)). Using Goldin's research as a framework, I
+model county-level occupational greediness by sex using U.S. Census
+adult employment statistics.
 
 \subsubsection{Educational Attainment}\label{educational-attainment}
 
@@ -338,26 +370,24 @@ where family resides, to regions with greater economic opportunities for
 higher-paying jobs. While over half of U.S. adults report living within
 an hour of family, a Pew Research study found that upper-income adults
 and adults with a postgraduate degree were the most likely to report
-living near no extended family.
-https://www.pewresearch.org/short-reads/2022/05/18/more-than-half-of-americans-live-within-an-hour-of-extended-family/
+living near no extended family (Hurst (2022)).
 
 Existing literature suggests that access to informal familial childcare
 can influence maternal labor force participation. Compton and Pollak
 find that married women with young children that live within close
 proximity of mothers or mothers-in-law are predicted to have a 4 to 10
 percent higher labor force participation rate when compared to women
-that live farther from family
-(https://www.sciencedirect.com/science/article/pii/S0094119013000314).
-They theorize that family members within close proximity provide
-``insurance'' to working mothers, by being available to provide care in
-irregular or unanticipated circumstances. Building upon this framework,
-I use geographic rootedness as a proxy for access to local familial
-childcare. I model geographic ``rootedness'' as the share of adults 25
-or older in each county who report living in the state they were born
-in. While this does not directly estimate the proximity of family or
-availability of informal childcare, it provides a county-level profile
-of geographic attachment to measure potential differences in access to
-informal childcare support.
+that live farther from family (Compton and Pollak (2014)). They theorize
+that family members within close proximity provide ``insurance'' to
+working mothers, by being available to provide care in irregular or
+unanticipated circumstances. Building upon this framework, I use
+geographic rootedness as a proxy for access to local familial childcare.
+I model geographic ``rootedness'' as the share of adults 25 or older in
+each county who report living in the state they were born in. While this
+does not directly estimate the proximity of family or availability of
+informal childcare, it provides a county-level profile of geographic
+attachment to measure potential differences in access to informal
+childcare support.
 
 \subsection{Data and Measures}\label{data-and-measures}
 
@@ -400,6 +430,18 @@ The sources and representations of each variable are summarized below:
   >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
   >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
   >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\caption{Data Sources and Variable
+Representations}\label{tbl-0}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Source(s)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Representation
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Variable
@@ -453,11 +495,12 @@ female labor force participation.
 County-level FLPR resembles a normal distribution, therefore, FLPR is
 modeled using a normal likelihood. The intercept term, or baseline
 female labor force participation rate, is drawn from a normal
-distribution with a prior mean of 0.405, or \(\logit(70)\), with
-\(\sigma=.25\) to allow for some uncertainty. This rate is close to the
-empirical FLPR mean of 70\% across counties. Childcare burden is modeled
-with a weakly informative prior of \(\mu=0, \sigma=0.15\), assuming no
-direction of relationship, but expecting few extreme values.
+distribution with a prior mean of 0.847, or
+\(\(\operatorname{logit}(0.70)\)\), with \(\sigma=.25\) to allow for
+some uncertainty. This rate is close to the empirical FLPR mean of 70\%
+across counties. Childcare burden is modeled with a weakly informative
+prior of \(\mu=0, \sigma=0.15\), assuming no direction of relationship,
+but expecting few extreme values.
 
 Figure 1 shows a Bayesian probabilistic graphical model (PGM) depicting
 the Naive model.
@@ -665,9 +708,9 @@ mean, evaluated at low, average, and high levels of occupational
 greediness.}\label{tbl-2}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Greedy occupation context
+Occupational Profile
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Mean change in FLPR (pp)
+Mean change in FLPR
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
 SD
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
@@ -677,9 +720,9 @@ SD
 \endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
-Greedy occupation context
+Occupational Profile
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Mean change in FLPR (pp)
+Mean change in FLPR
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
 SD
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
@@ -702,13 +745,139 @@ association begins to weaken when analyzing counties with average
 ocucpational greediness, shown in orange, and appears nearly flat when
 analyzing counties with high occupational greediness, shown in green.
 
-\subsubsection{Discussion}\label{discussion}
+\subsection{Discussion}\label{discussion}
+
+These results align with existing research, suggesting that higher
+childcare burden is associated with lower maternal labor force
+participation. They also expand existing analysis of the naive
+association between childcare cost burden and maternal FLPR by showing
+that this relationship varies across county occupational contexts. The
+well-established negative association between childcare burden and
+maternal FLPR is highest amongst counties with a relatively low share of
+women in greedy occupations and weakens significantly as greedy
+occupation share increases.
+
+This observed occupational hetereogenity aligns with the intuition that
+women in communities with high concentrations of high-earning,
+prestigious professions may be less likely to leave the labor force when
+responding to increases in childcare costs. However, because this model
+uses county-level estimates, it should not be interpreted to mean that
+individual women employed in greedy occupations are responsible for this
+effect heterogenity.
+
+Including bachelor's plus share weakens the observed association between
+occupational greediness and maternal FLPR, indicating that county level
+differences in educational attainment partially account for this
+association. However, it notably does not reduce the effect of the
+interaction between childcare burden and occupation greediness. The
+model results also showed a positive association between Geographic
+rootedness and maternal FLPR. Interestingly, the strength of this
+association was even larger than educational attainment, a well-known
+factor strongly associated with FLPR. If geographic rootedness provides
+a fair proxy of familial childcare availability, this suggests that
+access to such support reduces childare constraints, allowing mothers to
+remain in the workforce. However, it is important to note that while the
+estimated associations between variables remain relatively consistent
+across models, each model only explains a small amount of variation in
+maternal FLPR between counties.
 
 \subsection{Conclusions}\label{conclusions}
+
+This paper strengthens existing research by affirming that childcare
+burden is negatively associated with female labor force participation.
+It builds upon the current body of knowledge by uncovering that this
+association is partially moderated by local occupational contexts.
+Results also indicate that acces to familial support networks may also
+shape the slope of the relationship between female labor force
+participation and childcare costs. It also highlights a need for
+additional research, as both the naive model of maternal FLPR as a
+function solely of childcare and the fully adjusted model explain only a
+small amount of variation in maternal FLPR between counties. Ultimatley,
+this analysis offerse important context to researchers and
+policy-makers, by providing insight into why estimated employment
+responses to childcare affordability interventions vary.
 
 \subsection{References}\label{references}
 
 \phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-araujo_impact_2025}
+Araujo, Valeska, Linden McBride, and Danielle H Sandler. 2025. {``The
+{Impact} of {Childcare} {Costs} on {Mothers}' {Labor} {Force}
+{Participation},''} April.
+
+\bibitem[\citeproctext]{ref-bureau_american_nodate}
+Bureau, US Census. n.d.
+{``\href{https://www.census.gov/data/developers/data-sets/acs-5year.html}{American
+{Community} {Survey} 5-{Year} {Data} (2009-2024)}.''} \emph{Census.gov}.
+Accessed August 8, 2026.
+
+\bibitem[\citeproctext]{ref-compton_family_2014}
+Compton, Janice, and Robert A. Pollak. 2014.
+{``\href{https://doi.org/10.1016/j.jue.2013.03.007}{Family Proximity,
+Childcare, and Women's Labor Force Attachment}.''} \emph{Journal of
+Urban Economics}, Spatial {Dimensions} of {Labor} {Markets}, 79
+(January): 72--90.
+
+\bibitem[\citeproctext]{ref-noauthor_factsheet_2020}
+{``\href{http://aspe.hhs.gov/reports/factsheet-estimates-child-care-eligibility-receipt-fiscal-year-2017}{Factsheet:
+{Estimates} of {Child} {Care} {Eligibility} and {Receipt} for {Fiscal}
+{Year} 2017}.''} 2020. \emph{ASPE}.
+
+\bibitem[\citeproctext]{ref-goldin_grand_2014}
+Goldin, Claudia. 2014.
+{``\href{https://doi.org/10.1257/aer.104.4.1091}{A {Grand} {Gender}
+{Convergence}: {Its} {Last} {Chapter}}.''} \emph{American Economic
+Review} 104 (4): 1091--1119.
+
+\bibitem[\citeproctext]{ref-havnes_no_2011}
+Havnes, Tarjei, and Magne Mogstad. 2011.
+{``\href{https://www.jstor.org/stable/41238095}{No {Child} {Left}
+{Behind}: {Subsidized} {Child} {Care} and {Children}'s {Long}-{Run}
+{Outcomes}}.''} \emph{American Economic Journal: Economic Policy} 3 (2):
+97--129.
+
+\bibitem[\citeproctext]{ref-hurst_more_2022}
+Hurst, Kiley. 2022.
+{``\href{https://www.pewresearch.org/short-reads/2022/05/18/more-than-half-of-americans-live-within-an-hour-of-extended-family/}{More
+Than Half of {Americans} Live Within an Hour of Extended Family}.''}
+\emph{Pew Research Center}.
+
+\bibitem[\citeproctext]{ref-rasheed_effects_2018}
+Malik, Rasheed. 2018.
+{``\href{https://www.americanprogress.org/article/effects-universal-preschool-washington-d-c/}{The
+{Effects} of {Universal} {Preschool} in {Washington}, {D}.{C}.}''}
+\emph{Center for American Progress}.
+
+\bibitem[\citeproctext]{ref-morrissey_child_2017}
+Morrissey, Taryn W. 2017.
+{``\href{https://doi.org/10.1007/s11150-016-9331-3}{Child Care and
+Parent Labor Force Participation: A Review of the Research
+Literature}.''} \emph{Review of Economics of the Household} 15 (1):
+1--24.
+
+\bibitem[\citeproctext]{ref-noauthor_open_nodate}
+{``\href{https://dataportal.dol.gov/datasets/10278}{Open {Data}
+{Portal}{\textbar} {United} {States} {Department} of {Labor}}.''} n.d.
+Accessed August 8, 2026.
+
+\bibitem[\citeproctext]{ref-noauthor_s2401_nodate}
+{``\href{https://data.census.gov/table/ACSST5Y2023.S2401}{S2401:
+{Occupation} by {Sex} for the Civilian Employed Population 16 Years and
+over - {Census} {Bureau} {Table}}.''} n.d. Accessed August 8, 2026.
+
+\bibitem[\citeproctext]{ref-sobeck_greedy_2024}
+Sobeck, Kristen. 2024.
+{``\href{https://doi.org/10.1111/1475-4932.12824}{Greedy {Jobs},
+{Labour} {Market} {Institutions}, and the {Gender} {Pay} {Gap}}.''}
+\emph{Economic Record} 100 (331): 462--90.
+
+\bibitem[\citeproctext]{ref-noauthor_effects_2016}
+{``\href{http://aspe.hhs.gov/reports/effects-child-care-subsidies-maternal-labor-force-participation-united-states}{The
+{Effects} of {Child} {Care} {Subsidies} on {Maternal} {Labor} {Force}
+{Participation} in the {United} {States}}.''} 2016. \emph{ASPE}.
+
+\end{CSLReferences}
 
 
 
