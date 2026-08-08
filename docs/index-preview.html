@@ -306,8 +306,11 @@ background: #041e42;
   <li><a href="#naive-model-flpr-as-a-function-of-childcare-burden" id="toc-naive-model-flpr-as-a-function-of-childcare-burden" class="nav-link" data-scroll-target="#naive-model-flpr-as-a-function-of-childcare-burden"><span class="header-section-number">4.1</span> Naive Model: FLPR as a Function of Childcare Burden</a></li>
   <li><a href="#adjusting-for-covariates" id="toc-adjusting-for-covariates" class="nav-link" data-scroll-target="#adjusting-for-covariates"><span class="header-section-number">4.2</span> Adjusting for Covariates</a></li>
   <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses"><span class="header-section-number">4.3</span> Hypotheses</a></li>
+  <li><a href="#greedy-model" id="toc-greedy-model" class="nav-link" data-scroll-target="#greedy-model"><span class="header-section-number">4.4</span> “Greedy” Model</a></li>
+  <li><a href="#education-adjusted-model" id="toc-education-adjusted-model" class="nav-link" data-scroll-target="#education-adjusted-model"><span class="header-section-number">4.5</span> Education-Adjusted Model</a></li>
+  <li><a href="#fully-adjusted-rooted-model" id="toc-fully-adjusted-rooted-model" class="nav-link" data-scroll-target="#fully-adjusted-rooted-model"><span class="header-section-number">4.6</span> Fully Adjusted “Rooted” Model</a></li>
   </ul></li>
-  <li><a href="#sec-4" id="toc-sec-4" class="nav-link" data-scroll-target="#sec-4"><span class="header-section-number">5</span> The direct and indirect effects of ruggedness</a>
+  <li><a href="#sec-4" id="toc-sec-4" class="nav-link" data-scroll-target="#sec-4"><span class="header-section-number">5</span> Results</a>
   <ul class="collapse">
   <li><a href="#robustness-with-respect-to-omitted-geographical-variables" id="toc-robustness-with-respect-to-omitted-geographical-variables" class="nav-link" data-scroll-target="#robustness-with-respect-to-omitted-geographical-variables"><span class="header-section-number">5.1</span> Robustness with respect to omitted geographical variables</a></li>
   <li><a href="#robustness-with-respect-to-influential-observations" id="toc-robustness-with-respect-to-influential-observations" class="nav-link" data-scroll-target="#robustness-with-respect-to-influential-observations"><span class="header-section-number">5.2</span> Robustness with respect to influential observations</a></li>
@@ -371,7 +374,48 @@ background: #041e42;
 </section>
 <section id="data-and-measures-summary" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="data-and-measures-summary"><span class="header-section-number">3.3</span> Data and Measures Summary</h3>
-<p>The sources and representations of each variable are summarized below: | Variable | Source(s) | Representation | |—|—|—| | Maternal Female Labor Force Participation Rate (FLPR) | Department of Labor (DOL) county data | Labor-force participation rate among women with children under age six | | Childcare cost burden | DOL National Database of Childcare Prices; American Community Survey (ACS) median family income | Annual center-based childcare cost for children ages 0–5 divided by median family income | | Greedy occupation share | ACS Occupation by Sex for the Civilian Employed Population 16 Years and Over (Series S240) | Share of employed women in management, business and financial, and legal occupations | | Educational attainment | ACS Place of Birth by Educational Attainment in the United States (Series B06009) | Share of adults age 25 or older with a bachelor’s, graduate, or professional degree | | Geographic rootedness | ACS Place of Birth by Educational Attainment in the United States (Series B06009) | Share of adults age 25 or older who were born in their current state of residence |</p>
+<p>The sources and representations of each variable are summarized below:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Source(s)</th>
+<th>Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Maternal Female Labor Force Participation Rate (FLPR)</td>
+<td>Department of Labor (DOL) county data</td>
+<td>Labor-force participation rate among women with children under age six</td>
+</tr>
+<tr class="even">
+<td>Childcare cost burden</td>
+<td>DOL National Database of Childcare Prices; American Community Survey (ACS) median family income</td>
+<td>Annual center-based childcare cost for children ages 0–5 divided by median family income</td>
+</tr>
+<tr class="odd">
+<td>Greedy occupation share</td>
+<td>ACS Occupation by Sex for the Civilian Employed Population 16 Years and Over (Series S240)</td>
+<td>Share of employed women in management, business and financial, and legal occupations</td>
+</tr>
+<tr class="even">
+<td>Educational attainment</td>
+<td>ACS Place of Birth by Educational Attainment in the United States (Series B06009)</td>
+<td>Share of adults age 25 or older with a bachelor’s, graduate, or professional degree</td>
+</tr>
+<tr class="odd">
+<td>Geographic rootedness</td>
+<td>ACS Place of Birth by Educational Attainment in the United States (Series B06009)</td>
+<td>Share of adults age 25 or older who were born in their current state of residence</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="empirical-strategy" class="level2" data-number="4">
@@ -380,16 +424,16 @@ background: #041e42;
 <h3 data-number="4.1" class="anchored" data-anchor-id="naive-model-flpr-as-a-function-of-childcare-burden"><span class="header-section-number">4.1</span> Naive Model: FLPR as a Function of Childcare Burden</h3>
 <p>First, I analyze a naive logit-Normal regression model of female labor force participation as a function of only childcare burden.</p>
 <p>This relationship can be written as: <span id="eq-1"><span class="math display">\[
-y_i = \beta_0 + \beta_Cc_i
+y_i = \beta_0 + \beta_{C}c_i
 \tag{1}\]</span></span></p>
-<p>where <span class="math inline">\(i\)</span> indexes counties, <span class="math inline">\(y_i\)</span> is the female labor force participation rate, <span class="math inline">\(b_0\)</span> represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and <span class="math inline">\(b_C\)</span> represents the strength of the relationship between childcare cost burden and female labor force participation.</p>
-<p>FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a mean of 0.405, or <span class="math inline">\(logit(70)\)</span>, since we assume the rate is close to the mean of 70% across counties.</p>
+<p>where <span class="math inline">\(i\)</span> indexes counties, <span class="math inline">\(y_i\)</span> is the female labor force participation rate, <span class="math inline">\(\beta_0\)</span> represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and <span class="math inline">\(\beta_C\)</span> represents the strength of the relationship between childcare cost burden and female labor force participation.</p>
+<p>County-level FLPR resembles a normal distribution, therefore, FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a prior mean of 0.405, or <span class="math inline">\(\logit(70)\)</span>, with <span class="math inline">\(\sigma=.25\)</span> to allow for some uncertainty. This rate is close to the empirical FLPR mean of 70% across counties. Childcare burden is modeled with a weakly informative prior of <span class="math inline">\(\mu=0, \sigma=0.15\)</span>, assuming no direction of relationship, but expecting few extreme values.</p>
 <p>Figure 1 shows a Bayesian probabilistic graphical model (PGM) depicting the Naive model.</p>
 <p><a href="assets/naive_model.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="assets/naive_model.svg" class="img-fluid"></a></p>
 </section>
 <section id="adjusting-for-covariates" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="adjusting-for-covariates"><span class="header-section-number">4.2</span> Adjusting for Covariates</h3>
-<p>Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure.</p>
+<p>Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure. Like childcare burden, all covariates are modeled with weakly informative priors of <span class="math inline">\(\mu=0, \sigma=0.15\)</span>.</p>
 </section>
 <section id="hypotheses" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="hypotheses"><span class="header-section-number">4.3</span> Hypotheses</h3>
@@ -400,90 +444,104 @@ y_i = \beta_0 + \beta_Cc_i
 <li><strong>Hypothesis 3.</strong> <span class="math inline">\(\beta_{B} &gt; 0\)</span> (<em>hypothesized causal mechanism</em>: inclusion of educational attainment reduces the estimated coefficient of greedy occupation share, indicating that educational composition accounts for part of the initially observed association).</li>
 <li><strong>Hypothesis 4.</strong> <span class="math inline">\(\beta_{R} &gt; 0\)</span> (<em>hypothesized causal mechanism</em>: county-level geographic rootedness is associated with higher maternal labor-force participation, potentially because rootedness is associated with stronger access to informal family support networks).</li>
 </ul>
-<p>The first hypothesis, captured by the sign of <span class="math inline">\(\beta_1\)</span>, is that ruggedness has a direct negative effect on income. The second hypothesis, which is core to our paper, is that in Africa only, ruggedness has an additional positive effect on income. The third hypothesis compares the estimated direct effects of ruggedness in the unrestricted and restricted equations. We expect that, since <span class="math inline">\(\beta_5\)</span> absorbs both the direct and indirect effects of ruggedness, it will be an upwards biased estimate of <span class="math inline">\(-\alpha\)</span>, whereas <span class="math inline">\(\beta_1\)</span> will be a consistent estimate of <span class="math inline">\(-\alpha\)</span>. From this it follows that <span class="math inline">\(\beta_5\)</span> is greater than <span class="math inline">\(\beta_1\)</span>. The following section tests whether the data supports these three hypotheses.</p>
-<p><strong>?@eq-5</strong> illustrates the relationship between income and ruggedness, leaving slave exports in the background. To bring slave exports to the foreground and check to what extent they can account for the differential effect of ruggedness in Africa, in section 5 we derive a different reduced-form equation. Consider again our three equations (<a href="#eq-1" class="quarto-xref">1</a>) to (<strong>?@eq-3</strong>) that give the relationships between ruggedness, slave exports, and income. Previously, we substituted both (<strong>?@eq-3</strong>) and (<strong>?@eq-2</strong>) into (<a href="#eq-1" class="quarto-xref">1</a>) to obtain a reduced-form relationship between income and ruggedness only, given by (<strong>?@eq-4</strong>). If we instead only substitute (<strong>?@eq-2</strong>) into (<a href="#eq-1" class="quarto-xref">1</a>), we obtain a reduced-form relationship between income and both ruggedness and slave exports:</p>
+</section>
+<section id="greedy-model" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="greedy-model"><span class="header-section-number">4.4</span> “Greedy” Model</h3>
+<p>The next model, the “greedy” model, introduces county occupation greediness and its interaction with childcare burden.</p>
+<p>This relationship can be written as:</p>
 <p><span class="math display">\[
-y_i = \begin{cases}
-\kappa_1 - \alpha r_i + \beta \kappa_2 - \beta \gamma x_i + \zeta_i &amp;\text{if }i\text{ is in Africa}, \\
-\kappa_1 - \alpha r_i + \zeta_i &amp;\text{otherwise}.
-\end{cases}
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi
 \]</span></p>
-<p>We test this relationship by estimating the following equation (note that for all non-African countries slave exports are zero, <span class="math inline">\(x_i = 0\)</span>):</p>
-<p><span id="eq-7"><span class="math display">\[
-y_i = \beta_6 + \beta_7 r_i + \beta_8 r_i I_i^\text{Africa} + \beta_9 I_i^\text{Africa} + \beta_{10}x_i + \varepsilon_i
-\tag{2}\]</span></span></p>
-<p>Estimating this reduced form allows us to test three additional hypotheses that are about ruggedness and slave exports:</p>
-<ul>
-<li>Hypothesis 4. <span class="math inline">\(\beta_{10} &lt; 0\)</span> (slave exports negatively affect income).</li>
-<li>Hypothesis 5. <span class="math inline">\(\beta_8 = 0\)</span> (once slave exports are taken into account, the effect of ruggedness is no different in Africa).</li>
-<li>Hypothesis 6. <span class="math inline">\(\beta_7 &lt; 0\)</span> (once slave exports are taken into account, the effect of ruggedness is negative).</li>
-</ul>
-<p>Hypothesis 4 is that slave exports are negatively related to current income. Hypothesis 5 provides a way of testing whether the slave trades can fully account for the positive indirect effect of ruggedness in Africa. If the ruggedness-income relationship is different for Africa only because of the slave trades, then once we control for the effect of the slave trades on income, there should no longer be a differential effect of ruggedness for Africa. The last hypothesis is that once the indirect effect of ruggedness is taken into account by controlling for the slave trades, the direct effect of ruggedness can be correctly identified and should be negative.</p>
+<p>where <span class="math inline">\(\beta_G\)</span> represents the association between greedy occupation share and maternal FLPR while holding childcare burden constant, and <span class="math inline">\(\beta_{CG}\)</span> represents an interaction between childcare burden and greedy occupation share. <span class="math inline">\(\beta_{CG}\)</span> is used to measure whether the relationship between childcare burden and FLPR varies across occupational contexts.</p>
+<p>To ease interpretation of <span class="math inline">\(\beta_{CG}\)</span>, I later estimate the change in predicted FLPR associated with moving from average childcare burden to one standard deviation above average at low, average, and high levels of greedy occupation share.</p>
+</section>
+<section id="education-adjusted-model" class="level3" data-number="4.5">
+<h3 data-number="4.5" class="anchored" data-anchor-id="education-adjusted-model"><span class="header-section-number">4.5</span> Education-Adjusted Model</h3>
+<p>The education-adjusted model introduces the share of county residents with a bachelor’s degree or greater advanced degree.</p>
+<p>This relationship can be written as:</p>
+<p><span class="math display">\[
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi
+\]</span></p>
+<p>where <span class="math inline">\(\beta_{B}\)</span> represents the association between educational attainment and maternal FLPR while holding other variables constant. This is used to test whether occupation context is partially or completely explained by education attainment. The greedy-occupation coefficient across Models 2 and 3 are thus compared to assess changes in direction or magnitude after education is included.</p>
+</section>
+<section id="fully-adjusted-rooted-model" class="level3" data-number="4.6">
+<h3 data-number="4.6" class="anchored" data-anchor-id="fully-adjusted-rooted-model"><span class="header-section-number">4.6</span> Fully Adjusted “Rooted” Model</h3>
+<p>The final fully adjusted model, or “rooted” model, introduces geographical rootedness, measured as the share of adults age 25 and older who were born in their current state of residence.</p>
+<p>This relationship can be written as:</p>
+<p><span class="math display">\[
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi + \beta_{R}ri
+\]</span></p>
+<p>where <span class="math inline">\(\beta_{R}\)</span> represents the association between geographical rootness and maternal FLPR while holding other variables constant. Rootedness is included as a proxy for access to informal familial childcare and used to test whether differing geographic attachment profiles between counties are partially responsible for the other estimated relationships.</p>
 </section>
 </section>
 <section id="sec-4" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="sec-4"><span class="header-section-number">5</span> The direct and indirect effects of ruggedness</h2>
-<p>As a first step in our empirical analysis, we now estimate the direct and indirect effects of ruggedness on income per person. Our baseline estimates of equations (<strong>?@eq-5</strong>) and (<strong>?@eq-6</strong>) are given in <a href="#tbl-1" class="quarto-xref">Table&nbsp;1</a>.</p>
+<h2 data-number="5" class="anchored" data-anchor-id="sec-4"><span class="header-section-number">5</span> Results</h2>
 <div id="tbl-1" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: The direct and indirect effects of ruggedness
+Table&nbsp;1: Description of the table
 </figcaption>
 <div aria-describedby="tbl-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table" data-quarto-postprocess="true">
+<table class="caption-top table">
+<caption>Description of the table</caption>
 <colgroup>
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th colspan="7" data-quarto-table-cell-role="th">Dependent variable: Log real gdp per person 2000</th>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">(1)</th>
-<th data-quarto-table-cell-role="th">(2)</th>
-<th data-quarto-table-cell-role="th">(3)</th>
-<th data-quarto-table-cell-role="th">(4)</th>
-<th data-quarto-table-cell-role="th">(5)</th>
-<th data-quarto-table-cell-role="th">(6)</th>
-<th data-quarto-table-cell-role="th">(7)</th>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Naive</th>
+<th style="text-align: right;">Greedy</th>
+<th style="text-align: right;">+ Education</th>
+<th style="text-align: right;">+ Rootedness</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Ruggedness</td>
-<td>-0.078<br>
-<span class="small">(0.036)**</span></td>
-<td>0.003<br>
-<span class="small">(0.031)</span></td>
-<td>-0.075<br>
-<span class="small">(0.037)**</span></td>
-<td>-0.094<br>
-<span class="small">(0.036)***</span></td>
-<td>-0.073<br>
-<span class="small">(0.029)**</span></td>
-<td>-0.081<br>
-<span class="small">(0.031)***</span></td>
-<td>-0.093<br>
-<span class="small">(0.031)***</span></td>
+<td style="text-align: left;">Intercept</td>
+<td style="text-align: right;">1.172 [1.10, 1.20]</td>
+<td style="text-align: right;">1.167 [1.10, 1.20]</td>
+<td style="text-align: right;">1.167 [1.10, 1.20]</td>
+<td style="text-align: right;">1.168 [1.10, 1.20]</td>
 </tr>
 <tr class="even">
-<td>Observations</td>
-<td>170</td>
-<td>170</td>
-<td>170</td>
-<td>170</td>
-<td>170</td>
-<td>170</td>
-<td>170</td>
+<td style="text-align: left;">Childcare burden</td>
+<td style="text-align: right;">-0.107 [-0.160, -0.058]</td>
+<td style="text-align: right;">-0.120 [-0.170, -0.070]</td>
+<td style="text-align: right;">-0.122 [-0.170, -0.076]</td>
+<td style="text-align: right;">-0.103 [-0.150, -0.052]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Greedy occupation share</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.112 [0.064, 0.160]</td>
+<td style="text-align: right;">0.067 [0.010, 0.130]</td>
+<td style="text-align: right;">0.085 [0.026, 0.140]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Childcare burden × greedy share</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.072 [0.026, 0.120]</td>
+<td style="text-align: right;">0.069 [0.022, 0.120]</td>
+<td style="text-align: right;">0.070 [0.023, 0.110]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bachelor’s-plus attainment</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.084 [0.024, 0.140]</td>
+<td style="text-align: right;">0.155 [0.092, 0.220]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Born-in-state share</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">0.173 [0.120, 0.230]</td>
 </tr>
 </tbody>
 </table>
@@ -576,10 +634,10 @@ Figure&nbsp;1: Results from <span class="citation" data-cites="nunn_ruggedness_2
 </section>
 <section id="sec-5" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="sec-5"><span class="header-section-number">6</span> Do slave exports account for Africa’s differential effect?</h2>
-<p>Having established a robust differential impact of ruggedness within Africa, we now examine whether Africa’s slave trades can account for this differential effect. We do this in two steps. First, we show that there were fewer slaves exported from more rugged areas, even after we control for initial population density and other potential geographic determinants of slave exports. This involves estimating equation (<strong>?@eq-3</strong>) from <strong>?@sec-3</strong>. Second, we estimate equation (<a href="#eq-7" class="quarto-xref">2</a>) from <strong>?@sec-3</strong> to show that slave exports can fully account for the differential effect of ruggedness in Africa.</p>
+<p>Having established a robust differential impact of ruggedness within Africa, we now examine whether Africa’s slave trades can account for this differential effect. We do this in two steps. First, we show that there were fewer slaves exported from more rugged areas, even after we control for initial population density and other potential geographic determinants of slave exports. This involves estimating equation (<strong>?@eq-3</strong>) from <strong>?@sec-3</strong>. Second, we estimate equation (<strong>?@eq-7</strong>) from <strong>?@sec-3</strong> to show that slave exports can fully account for the differential effect of ruggedness in Africa.</p>
 <p>We use data from <span class="citation" data-cites="nunn_longterm_2008">Nunn (<a href="#ref-nunn_longterm_2008" role="doc-biblioref">2008</a>)</span> on the number of slaves exported from each country in Africa between 1400 and 1900 during Africa’s four slave trades. We normalize total slave exports by the land area of each country. Because the variable is extremely skewed to the left and some countries have zero slave exports, we take the natural logarithm of one plus the measure, i.e.&nbsp;<span class="math inline">\(\ln(1 + \text{slave exports} / \text{area})\)</span>.</p>
 <p>Column (1) in table 4 reports the unconditional relationship between slave exports and ruggedness for all 49 African countries included in our previous estimations. It shows that there is a negative and statistically significant relationship between ruggedness and slave exports, and that ruggedness alone explains about one third of the variation in slave exports. In the remaining columns of the table we include additional variables to address several potential concerns regarding the relationship between ruggedness and slave exports. First, it is possible that the reason fewer slaves were taken from countries with higher average uphill slope is that there were fewer people living in more rugged areas, not because rugged terrain provided protection. To allow for this possibility, in column (2) we control for population density in 1500. We see that the negative relationship between ruggedness and slave exports is robust, suggesting that the relationship is not working through lower initial population density in rugged areas. Next, to check whether ruggedness is proxying for other geographical characteristics that could have affected slave exports, in column (3) we control for the proportion of countries’ land area that has tropical climates, the proportion that is desert, and the average distance to the coast. The negative relationship between slave exports and ruggedness remains robust to these controls. The last set of controls that we introduce are the distance from each country to the closest slave market in each of the four slave trades (in thousands of kilometres). These distances were shown by <span class="citation" data-cites="nunn_longterm_2008">Nunn (<a href="#ref-nunn_longterm_2008" role="doc-biblioref">2008</a>)</span> to be important determinants of slave exports. Again, the ruggedness coefficient remains negative and significant when these distances are controlled for. In the final column of the table we include all control variables simultaneously. The significant negative relationship between slave exports and ruggedness remains. Overall, the results of table 4 confirm the historical accounts suggesting that irregular terrain was an effective means of avoiding the slave trades.</p>
-<p>Having shown that ruggedness has a differential effect in Africa and that ruggedness deterred slave exports, we now check to what extent slave exports can account for Africa’s differential effect. We do this by estimating equation (<a href="#eq-7" class="quarto-xref">2</a>) from <strong>?@sec-3</strong>, with results reported in table 5. Column (1) reproduces, for comparison, our estimates of equation (5), which does not control for slave exports. In columns (2), we estimate equation (7), which is identical to equation (5), except that slave exports are also included in the estimating equation. Columns (3) and (4) report the same estimations as (1) and (2) respectively with the same controls used in <a href="#sec-4" class="quarto-xref">Section&nbsp;5</a>. With or without the full set of controls, when slave exports are controlled for, the estimated differential effect of ruggedness within Africa disappears. The estimated coefficient is essentially zero, and is no longer statistically significant. This confirms hypothesis 5, and provides support for the explanation that the differential effect of ruggedness arises because of the slave trades. The estimates also support hypotheses 4 and 6. Slave exports have had a negative and statistically significant effect on economic outcomes, and once slave exports are accounted for, the estimated direct effect of ruggedness on income is negative and statistically significant.</p>
+<p>Having shown that ruggedness has a differential effect in Africa and that ruggedness deterred slave exports, we now check to what extent slave exports can account for Africa’s differential effect. We do this by estimating equation (<strong>?@eq-7</strong>) from <strong>?@sec-3</strong>, with results reported in table 5. Column (1) reproduces, for comparison, our estimates of equation (5), which does not control for slave exports. In columns (2), we estimate equation (7), which is identical to equation (5), except that slave exports are also included in the estimating equation. Columns (3) and (4) report the same estimations as (1) and (2) respectively with the same controls used in <a href="#sec-4" class="quarto-xref">Section&nbsp;5</a>. With or without the full set of controls, when slave exports are controlled for, the estimated differential effect of ruggedness within Africa disappears. The estimated coefficient is essentially zero, and is no longer statistically significant. This confirms hypothesis 5, and provides support for the explanation that the differential effect of ruggedness arises because of the slave trades. The estimates also support hypotheses 4 and 6. Slave exports have had a negative and statistically significant effect on economic outcomes, and once slave exports are accounted for, the estimated direct effect of ruggedness on income is negative and statistically significant.</p>
 </section>
 <section id="the-distribution-of-population-relative-to-rugged-areas" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="the-distribution-of-population-relative-to-rugged-areas"><span class="header-section-number">7</span> The distribution of population relative to rugged areas</h2>
@@ -592,10 +650,10 @@ Figure&nbsp;1: Results from <span class="citation" data-cites="nunn_ruggedness_2
 <p>Using our population-ruggedness correlation measure, we first examine whether there is evidence that within Africa the combination of the threat of slave raids with the availability of areas with varying ruggedness created past population movements that have persisted until today. In particular, we estimate the following equation:</p>
 <p><span id="eq-8"><span class="math display">\[
 \text{Corr}(\text{Pop. dens}, \text{Ruggedness}) = \eta_0 + \eta_1 \sigma_i^r + \eta_2 x_i + \eta_3 x_i \sigma_i^r + \varepsilon_i,
-\tag{3}\]</span></span></p>
+\tag{2}\]</span></span></p>
 <p>where <span class="math inline">\(\text{Corr}(\text{Pop. dens}, \text{Ruggedness})\)</span> is our ruggedness-population density correlation measure, <span class="math inline">\(\sigma^r_i\)</span> is the standard deviation of ruggedness within each country, and as before <span class="math inline">\(x_i\)</span> denotes slave exports.</p>
-<p>This specification captures the effect that the threat of capture during the slave trades had on population movements. We take our measure of slave exports <span class="math inline">\(x_i\)</span> as a proxy for how exposed a country was to the slave trades. If a country is threatened by the slave trades, then this may cause migration to more rugged areas. However, this will only be feasible if more rugged areas are available to migrate to. Therefore, the movement will depend not only on the threat from the slave trades <span class="math inline">\(x_i\)</span>, but also on the variation in terrain ruggedness within the country <span class="math inline">\(\sigma^r_i\)</span>. The importance of the interaction between the threat from the slave trades and varying ruggedness for population patterns is captured by the coefficient <span class="math inline">\(\eta_3\)</span> that multiplies <span class="math inline">\(x_i \sigma^r_i\)</span> in the estimating equation. Because slave exports are expected to have a greater effect on migration when there are more differences in terrain ruggedness within a country, we expect <span class="math inline">\(\eta_3 &gt; 0\)</span>. At the extreme, if the whole country is equally rugged (<span class="math inline">\(\sigma^r_i = 0\)</span>), then there is no benefit to moving to another part of the country in response to the threat of capture. In this case, the relationship between population concentration and slave exports in (<a href="#eq-8" class="quarto-xref">3</a>) is given by <span class="math inline">\(\eta_2\)</span> only, and therefore we expect <span class="math inline">\(\eta_2 = 0\)</span>.</p>
-<p>The estimates of <a href="#eq-8" class="quarto-xref">Equation&nbsp;3</a> are reported in column (1) of table 6. As expected, the estimated coefficient for slave exports alone <span class="math inline">\(\eta_2\)</span> is not significantly different from zero, but the estimated coefficient for slave exports interacted with the standard deviation of ruggedness <span class="math inline">\(\eta_3\)</span> is positive and statistically significant. In column (2) we also control for our set of country geographic characteristics. The results remain robust to this. Overall, the estimates suggest that when populations within African countries were threatened by the slave trades and differences in ruggedness existed, then less rugged areas lost population relative to more rugged areas. This concentration of the population in the more rugged parts of the country persists today.</p>
+<p>This specification captures the effect that the threat of capture during the slave trades had on population movements. We take our measure of slave exports <span class="math inline">\(x_i\)</span> as a proxy for how exposed a country was to the slave trades. If a country is threatened by the slave trades, then this may cause migration to more rugged areas. However, this will only be feasible if more rugged areas are available to migrate to. Therefore, the movement will depend not only on the threat from the slave trades <span class="math inline">\(x_i\)</span>, but also on the variation in terrain ruggedness within the country <span class="math inline">\(\sigma^r_i\)</span>. The importance of the interaction between the threat from the slave trades and varying ruggedness for population patterns is captured by the coefficient <span class="math inline">\(\eta_3\)</span> that multiplies <span class="math inline">\(x_i \sigma^r_i\)</span> in the estimating equation. Because slave exports are expected to have a greater effect on migration when there are more differences in terrain ruggedness within a country, we expect <span class="math inline">\(\eta_3 &gt; 0\)</span>. At the extreme, if the whole country is equally rugged (<span class="math inline">\(\sigma^r_i = 0\)</span>), then there is no benefit to moving to another part of the country in response to the threat of capture. In this case, the relationship between population concentration and slave exports in (<a href="#eq-8" class="quarto-xref">2</a>) is given by <span class="math inline">\(\eta_2\)</span> only, and therefore we expect <span class="math inline">\(\eta_2 = 0\)</span>.</p>
+<p>The estimates of <a href="#eq-8" class="quarto-xref">Equation&nbsp;2</a> are reported in column (1) of table 6. As expected, the estimated coefficient for slave exports alone <span class="math inline">\(\eta_2\)</span> is not significantly different from zero, but the estimated coefficient for slave exports interacted with the standard deviation of ruggedness <span class="math inline">\(\eta_3\)</span> is positive and statistically significant. In column (2) we also control for our set of country geographic characteristics. The results remain robust to this. Overall, the estimates suggest that when populations within African countries were threatened by the slave trades and differences in ruggedness existed, then less rugged areas lost population relative to more rugged areas. This concentration of the population in the more rugged parts of the country persists today.</p>
 </section>
 <section id="controlling-for-the-distribution-of-population-relative-to-rugged-areas" class="level3" data-number="7.2">
 <h3 data-number="7.2" class="anchored" data-anchor-id="controlling-for-the-distribution-of-population-relative-to-rugged-areas"><span class="header-section-number">7.2</span> Controlling for the distribution of population relative to rugged areas</h3>

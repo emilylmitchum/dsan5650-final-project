@@ -57,6 +57,7 @@ FLPR is first converted from a percentage to a proportion. Exact 0 and 1 FLPR va
 ### Data and Measures Summary
 
 The sources and representations of each variable are summarized below:
+
 | Variable | Source(s) | Representation |
 |---|---|---|
 | Maternal Female Labor Force Participation Rate (FLPR) | Department of Labor (DOL) county data | Labor-force participation rate among women with children under age six |
@@ -71,19 +72,19 @@ First, I analyze a naive logit-Normal regression model of female labor force par
 
 This relationship can be written as:
 $$
-y_i = \beta_0 + \beta_Cc_i
+y_i = \beta_0 + \beta_{C}c_i
 $$ {#eq-1}
 
-where $i$ indexes counties, $y_i$ is the female labor force participation rate, $b_0$ represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and $b_C$ represents the strength of the relationship between childcare cost burden and female labor force participation.
+where $i$ indexes counties, $y_i$ is the female labor force participation rate, $\beta_0$ represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and $\beta_C$ represents the strength of the relationship between childcare cost burden and female labor force participation.
 
-FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a mean of 0.405, or $logit(70)$, since we assume the rate is close to the mean of 70% across counties.
+County-level FLPR resembles a normal distribution, therefore, FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a prior mean of 0.405, or $\logit(70)$, with $\sigma=.25$ to allow for some uncertainty. This rate is close to the empirical FLPR mean of 70% across counties. Childcare burden is modeled with a weakly informative prior of $\mu=0, \sigma=0.15$, assuming no direction of relationship, but expecting few extreme values.
 
 Figure 1 shows a Bayesian probabilistic graphical model (PGM) depicting the Naive model.
 
 ![](assets/naive_model.svg)
 
 ### Adjusting for Covariates
-Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure.
+Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure. Like childcare burden, all covariates are modeled with weakly informative priors of $\mu=0, \sigma=0.15$.
 
 ### Hypotheses
 My predictions about the relationships between county-level childcare cost burden, greedy occupation share, educational attainment, and geographic rootedness yield the following hypotheses:
@@ -93,83 +94,56 @@ My predictions about the relationships between county-level childcare cost burde
 * **Hypothesis 3.** $\beta_{B} > 0$ (*hypothesized causal mechanism*: inclusion of educational attainment reduces the estimated coefficient of greedy occupation share, indicating that educational composition accounts for part of the initially observed association).
 * **Hypothesis 4.** $\beta_{R} > 0$ (*hypothesized causal mechanism*: county-level geographic rootedness is associated with higher maternal labor-force participation, potentially because rootedness is associated with stronger access to informal family support networks).
 
+### “Greedy” Model
+The next model, the “greedy” model, introduces county occupation greediness and its interaction with childcare burden. 
 
-The first hypothesis, captured by the sign of $\beta_1$, is that ruggedness has a direct negative effect on income. The second hypothesis, which is core to our paper, is that in Africa only, ruggedness has an additional positive effect on income. The third hypothesis compares the estimated direct effects of ruggedness in the unrestricted and restricted equations. We expect that, since $\beta_5$ absorbs both the direct and indirect effects of ruggedness, it will be an upwards biased estimate of $-\alpha$, whereas $\beta_1$ will be a consistent estimate of $-\alpha$. From this it follows that $\beta_5$ is greater than $\beta_1$. The following section tests whether the data supports these three hypotheses.
-
-@eq-5 illustrates the relationship between income and ruggedness, leaving slave exports in the background. To bring slave exports to the foreground and check to what extent they can account for the differential effect of ruggedness in Africa, in section 5 we derive a different reduced-form equation. Consider again our three equations (-@eq-1) to (-@eq-3) that give the relationships between ruggedness, slave exports, and income. Previously, we substituted both (-@eq-3) and (-@eq-2) into (-@eq-1) to obtain a reduced-form relationship between income and ruggedness only, given by (-@eq-4). If we instead only substitute (-@eq-2) into (-@eq-1), we obtain a reduced-form relationship between income and both ruggedness and slave exports:
-
-$$
-y_i = \begin{cases}
-\kappa_1 - \alpha r_i + \beta \kappa_2 - \beta \gamma x_i + \zeta_i &\text{if }i\text{ is in Africa}, \\
-\kappa_1 - \alpha r_i + \zeta_i &\text{otherwise}.
-\end{cases}
-$$
-
-We test this relationship by estimating the following equation (note that for all non-African countries slave exports are zero, $x_i = 0$):
+This relationship can be written as:
 
 $$
-y_i = \beta_6 + \beta_7 r_i + \beta_8 r_i I_i^\text{Africa} + \beta_9 I_i^\text{Africa} + \beta_{10}x_i + \varepsilon_i
-$$ {#eq-7}
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi
+$$
 
-Estimating this reduced form allows us to test three additional hypotheses that are about ruggedness and slave exports:
+where $\beta_G$ represents the association between greedy occupation share and maternal FLPR while holding childcare burden constant, and $\beta_{CG}$ represents an interaction between childcare burden and greedy occupation share. $\beta_{CG}$ is used to measure whether the relationship between childcare burden and FLPR varies across occupational contexts. 
 
-* Hypothesis 4. $\beta_{10} < 0$ (slave exports negatively affect income).
-* Hypothesis 5. $\beta_8 = 0$ (once slave exports are taken into account, the effect of ruggedness is no different in Africa).
-* Hypothesis 6. $\beta_7 < 0$ (once slave exports are taken into account, the effect of ruggedness is negative).
+To ease interpretation of $\beta_{CG}$, I later estimate the change in predicted FLPR associated with moving from average childcare burden to one standard deviation above average at low, average, and high levels of greedy occupation share.
 
-Hypothesis 4 is that slave exports are negatively related to current income. Hypothesis 5 provides a way of testing whether the slave trades can fully account for the positive indirect effect of ruggedness in Africa. If the ruggedness-income relationship is different for Africa only because of the slave trades, then once we control for the effect of the slave trades on income, there should no longer be a differential effect of ruggedness for Africa. The last hypothesis is that once the indirect effect of ruggedness is taken into account by controlling for the slave trades, the direct effect of ruggedness can be correctly identified and should be negative.
+### Education-Adjusted Model
+The education-adjusted model introduces the share of county residents with a bachelor’s degree or greater advanced degree. 
 
-## The direct and indirect effects of ruggedness {#sec-4}
+This relationship can be written as:
 
-As a first step in our empirical analysis, we now estimate the direct and indirect effects of ruggedness on income per person. Our baseline estimates of equations (-@eq-5) and (-@eq-6) are given in @tbl-1.
+$$
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi
+$$
 
-::: {#tbl-1}
+where $\beta_{B}$ represents the association between educational attainment and maternal FLPR while holding other variables constant. This is used to test whether occupation context is partially or completely explained by education attainment. The greedy-occupation coefficient across Models 2 and 3 are thus compared to assess changes in direction or magnitude after education is included.
 
-```{=html}
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th colspan="7">Dependent variable: Log real gdp per person 2000</th>
-</tr>
-<tr>
-  <th></th>
-  <th>(1)</th>
-  <th>(2)</th>
-  <th>(3)</th>
-  <th>(4)</th>
-  <th>(5)</th>
-  <th>(6)</th>
-  <th>(7)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Ruggedness</td>
-  <td>-0.078<br><small>(0.036)**</small></td>
-  <td>0.003<br><small>(0.031)</small></td>
-  <td>-0.075<br><small>(0.037)**</small></td>
-  <td>-0.094<br><small>(0.036)***</small></td>
-  <td>-0.073<br><small>(0.029)**</small></td>
-  <td>-0.081<br><small>(0.031)***</small></td>
-  <td>-0.093<br><small>(0.031)***</small></td>
-</tr>
-<tr>
-  <td>Observations</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-</tr>
-</tbody>
-</table>
-```
+### Fully Adjusted “Rooted” Model
+The final fully adjusted model, or “rooted” model, introduces geographical rootedness, measured as the share of adults age 25 and older who were born in their current state of residence.
 
-The direct and indirect effects of ruggedness
-:::
+This relationship can be written as:
+
+$$
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi + \beta_{R}ri
+$$
+
+where $\beta_{R}$ represents the association between geographical rootness and maternal FLPR while holding other variables constant. Rootedness is included as a proxy for access to informal familial childcare and used to test whether differing geographic attachment profiles between counties are partially responsible for the other estimated relationships.
+
+## Results {#sec-4}
+
+::: {#tbl-1} 
+| Parameter | Naive | Greedy | + Education | + Rootedness |
+|:---|---:|---:|---:|---:|
+| Intercept | 1.172 [1.10, 1.20] | 1.167 [1.10, 1.20] | 1.167 [1.10, 1.20] | 1.168 [1.10, 1.20] |
+| Childcare burden | -0.107 [-0.160, -0.058] | -0.120 [-0.170, -0.070] | -0.122 [-0.170, -0.076] | -0.103 [-0.150, -0.052] |
+| Greedy occupation share | — | 0.112 [0.064, 0.160] | 0.067 [0.010, 0.130] | 0.085 [0.026, 0.140] |
+| Childcare burden × greedy share | — | 0.072 [0.026, 0.120] | 0.069 [0.022, 0.120] | 0.070 [0.023, 0.110] |
+| Bachelor's-plus attainment | — | — | 0.084 [0.024, 0.140] | 0.155 [0.092, 0.220] |
+| Born-in-state share | — | — | — | 0.173 [0.120, 0.230] |
+
+: Description of the table
+::: 
+
 
 Looking first at column (1), when we estimate equation (-@eq-5) by regressing income per person on ruggedness while allowing for a differential effect in African countries, we find empirical confirmation for our hypotheses 1 and 2: ruggedness has a direct negative effect on income per person, but within Africa, there is an additional positive effect. The coefficient for ruggedness is negative and statistically significant (i.e., $\beta_1 < 0$ in equation (-@eq-5)), while the coefficient for ruggedness interacted with an indicator variable for Africa is positive and statistically significant (i.e., β2 > 0 in equation (5)). According to the estimated coefficients, within Africa the indirect positive effect swamps the direct negative effect. Adding up the negative direct effect (-0.078) and the positive indirect effect (0.156) yields a total effect of ruggedness on income in African countries of 0.078. Hence, overall, ruggedness has been a blessing for African countries.
 

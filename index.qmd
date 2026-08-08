@@ -57,6 +57,7 @@ FLPR is first converted from a percentage to a proportion. Exact 0 and 1 FLPR va
 ### Data and Measures Summary
 
 The sources and representations of each variable are summarized below:
+
 | Variable | Source(s) | Representation |
 |---|---|---|
 | Maternal Female Labor Force Participation Rate (FLPR) | Department of Labor (DOL) county data | Labor-force participation rate among women with children under age six |
@@ -71,19 +72,19 @@ First, I analyze a naive logit-Normal regression model of female labor force par
 
 This relationship can be written as:
 $$
-y_i = \beta_0 + \beta_Cc_i
+y_i = \beta_0 + \beta_{C}c_i
 $$ {#eq-1}
 
-where $i$ indexes counties, $y_i$ is the female labor force participation rate, $b_0$ represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and $b_C$ represents the strength of the relationship between childcare cost burden and female labor force participation.
+where $i$ indexes counties, $y_i$ is the female labor force participation rate, $\beta_0$ represents the baseline female labor force participation rate when childcare burden is held constant, or at an average childcare burden across counties, and $\beta_C$ represents the strength of the relationship between childcare cost burden and female labor force participation.
 
-FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a mean of 0.405, or $logit(70)$, since we assume the rate is close to the mean of 70% across counties.
+County-level FLPR resembles a normal distribution, therefore, FLPR is modeled using a normal likelihood. The intercept term, or baseline female labor force participation rate, is drawn from a normal distribution with a prior mean of 0.847, or $\(\operatorname{logit}(0.70)\)$, with $\sigma=.25$ to allow for some uncertainty. This rate is close to the empirical FLPR mean of 70% across counties. Childcare burden is modeled with a weakly informative prior of $\mu=0, \sigma=0.15$, assuming no direction of relationship, but expecting few extreme values.
 
 Figure 1 shows a Bayesian probabilistic graphical model (PGM) depicting the Naive model.
 
 ![](assets/naive_model.svg)
 
 ### Adjusting for Covariates
-Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure.
+Next, I fit progressively more complex models, adding relevant covariates and comparing coefficient estimates. All models are estimated using Bayesian logit-Normal regression. This approach allows me to assess robustness of the estimated relationships after adjusting for educational attainment and geographic rootedness and whether these variables account for part of the association attributed to greedy occupational structure. Like childcare burden, all covariates are modeled with weakly informative priors of $\mu=0, \sigma=0.15$.
 
 ### Hypotheses
 My predictions about the relationships between county-level childcare cost burden, greedy occupation share, educational attainment, and geographic rootedness yield the following hypotheses:
@@ -93,209 +94,101 @@ My predictions about the relationships between county-level childcare cost burde
 * **Hypothesis 3.** $\beta_{B} > 0$ (*hypothesized causal mechanism*: inclusion of educational attainment reduces the estimated coefficient of greedy occupation share, indicating that educational composition accounts for part of the initially observed association).
 * **Hypothesis 4.** $\beta_{R} > 0$ (*hypothesized causal mechanism*: county-level geographic rootedness is associated with higher maternal labor-force participation, potentially because rootedness is associated with stronger access to informal family support networks).
 
+### “Greedy” Model
+The next model, the “greedy” model, introduces county occupation greediness and its interaction with childcare burden. 
 
-The first hypothesis, captured by the sign of $\beta_1$, is that ruggedness has a direct negative effect on income. The second hypothesis, which is core to our paper, is that in Africa only, ruggedness has an additional positive effect on income. The third hypothesis compares the estimated direct effects of ruggedness in the unrestricted and restricted equations. We expect that, since $\beta_5$ absorbs both the direct and indirect effects of ruggedness, it will be an upwards biased estimate of $-\alpha$, whereas $\beta_1$ will be a consistent estimate of $-\alpha$. From this it follows that $\beta_5$ is greater than $\beta_1$. The following section tests whether the data supports these three hypotheses.
-
-@eq-5 illustrates the relationship between income and ruggedness, leaving slave exports in the background. To bring slave exports to the foreground and check to what extent they can account for the differential effect of ruggedness in Africa, in section 5 we derive a different reduced-form equation. Consider again our three equations (-@eq-1) to (-@eq-3) that give the relationships between ruggedness, slave exports, and income. Previously, we substituted both (-@eq-3) and (-@eq-2) into (-@eq-1) to obtain a reduced-form relationship between income and ruggedness only, given by (-@eq-4). If we instead only substitute (-@eq-2) into (-@eq-1), we obtain a reduced-form relationship between income and both ruggedness and slave exports:
-
-$$
-y_i = \begin{cases}
-\kappa_1 - \alpha r_i + \beta \kappa_2 - \beta \gamma x_i + \zeta_i &\text{if }i\text{ is in Africa}, \\
-\kappa_1 - \alpha r_i + \zeta_i &\text{otherwise}.
-\end{cases}
-$$
-
-We test this relationship by estimating the following equation (note that for all non-African countries slave exports are zero, $x_i = 0$):
+This relationship can be written as:
 
 $$
-y_i = \beta_6 + \beta_7 r_i + \beta_8 r_i I_i^\text{Africa} + \beta_9 I_i^\text{Africa} + \beta_{10}x_i + \varepsilon_i
-$$ {#eq-7}
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi
+$$
 
-Estimating this reduced form allows us to test three additional hypotheses that are about ruggedness and slave exports:
+where $\beta_G$ represents the association between greedy occupation share and maternal FLPR while holding childcare burden constant, and $\beta_{CG}$ represents an interaction between childcare burden and greedy occupation share. $\beta_{CG}$ is used to measure whether the relationship between childcare burden and FLPR varies across occupational contexts. 
 
-* Hypothesis 4. $\beta_{10} < 0$ (slave exports negatively affect income).
-* Hypothesis 5. $\beta_8 = 0$ (once slave exports are taken into account, the effect of ruggedness is no different in Africa).
-* Hypothesis 6. $\beta_7 < 0$ (once slave exports are taken into account, the effect of ruggedness is negative).
+To ease interpretation of $\beta_{CG}$, I later estimate the change in predicted FLPR associated with moving from average childcare burden to one standard deviation above average at low, average, and high levels of greedy occupation share.
 
-Hypothesis 4 is that slave exports are negatively related to current income. Hypothesis 5 provides a way of testing whether the slave trades can fully account for the positive indirect effect of ruggedness in Africa. If the ruggedness-income relationship is different for Africa only because of the slave trades, then once we control for the effect of the slave trades on income, there should no longer be a differential effect of ruggedness for Africa. The last hypothesis is that once the indirect effect of ruggedness is taken into account by controlling for the slave trades, the direct effect of ruggedness can be correctly identified and should be negative.
+### Education-Adjusted Model
+The education-adjusted model introduces the share of county residents with a bachelor’s degree or greater advanced degree. 
 
-## The direct and indirect effects of ruggedness {#sec-4}
+This relationship can be written as:
 
-As a first step in our empirical analysis, we now estimate the direct and indirect effects of ruggedness on income per person. Our baseline estimates of equations (-@eq-5) and (-@eq-6) are given in @tbl-1.
+$$
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi
+$$
 
-::: {#tbl-1}
+where $\beta_{B}$ represents the association between educational attainment and maternal FLPR while holding other variables constant. This is used to test whether occupation context is partially or completely explained by education attainment. The greedy-occupation coefficient across Models 2 and 3 are thus compared to assess changes in direction or magnitude after education is included.
 
-```{=html}
-<table>
-<thead>
-<tr>
-  <th></th>
-  <th colspan="7">Dependent variable: Log real gdp per person 2000</th>
-</tr>
-<tr>
-  <th></th>
-  <th>(1)</th>
-  <th>(2)</th>
-  <th>(3)</th>
-  <th>(4)</th>
-  <th>(5)</th>
-  <th>(6)</th>
-  <th>(7)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>Ruggedness</td>
-  <td>-0.078<br><small>(0.036)**</small></td>
-  <td>0.003<br><small>(0.031)</small></td>
-  <td>-0.075<br><small>(0.037)**</small></td>
-  <td>-0.094<br><small>(0.036)***</small></td>
-  <td>-0.073<br><small>(0.029)**</small></td>
-  <td>-0.081<br><small>(0.031)***</small></td>
-  <td>-0.093<br><small>(0.031)***</small></td>
-</tr>
-<tr>
-  <td>Observations</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-  <td>170</td>
-</tr>
-</tbody>
-</table>
-```
+### Fully Adjusted “Rooted” Model
+The final fully adjusted model, or “rooted” model, introduces geographical rootedness, measured as the share of adults age 25 and older who were born in their current state of residence.
 
-The direct and indirect effects of ruggedness
+This relationship can be written as:
+
+$$
+yi = \beta_0 + \beta_{C}ci + \beta_{G}gi + \beta_{CG}cgi + \beta_{B}bi + \beta_{R}ri
+$$
+
+where $\beta_{R}$ represents the association between geographical rootness and maternal FLPR while holding other variables constant. Rootedness is included as a proxy for access to informal familial childcare and used to test whether differing geographic attachment profiles between counties are partially responsible for the other estimated relationships.
+
+## Results {#sec-4}
+
+### Poseterior Estimates
+The following table shows posterior estimates for each model specification. Within each cell, the first value is the posterior mean, and the second is the 89% credible interval, shown within brackets. All values are shown on the logit scale.
+
+::: {#tbl-1} 
+| Parameter | Naive | Greedy | + Education | + Rootedness |
+|:---|---:|---:|---:|---:|
+| $\beta_{0}$ (Intercept) | 1.172 [1.10, 1.20] | 1.167 [1.10, 1.20] | 1.167 [1.10, 1.20] | 1.168 [1.10, 1.20] |
+| $\beta_{c}$ (Childcare burden) | -0.107 [-0.160, -0.058] | -0.120 [-0.170, -0.070] | -0.122 [-0.170, -0.076] | -0.103 [-0.150, -0.052] |
+| $\beta_{G}$ (Greedy occupation share) | — | 0.112 [0.064, 0.160] | 0.067 [0.010, 0.130] | 0.085 [0.026, 0.140] |
+|$\beta_{CG}$ (Childcare burden × greedy share) | — | 0.072 [0.026, 0.120] | 0.069 [0.022, 0.120] | 0.070 [0.023, 0.110] |
+| $\beta_{B}$ (Bachelor's-plus attainment) | — | — | 0.084 [0.024, 0.140] | 0.155 [0.092, 0.220] |
+| $\beta_{R}$ (Born-in-state share) | — | — | — | 0.173 [0.120, 0.230] |
+
+: Posterior estimates of model specifications
+::: 
+
+$\beta_{C}$, representing the childcare burden estimate, remains relatively stable across models. Notably, the interaction term, $\beta_{CG}$, is very stable, which suggests that inclusion of educational attainment and geographic rootedness does not eliminate heterogeneity. Inclusion of educational attainment significantly reduces the strength of $\beta_{G}$, greedy occupation share, from 0.112 to 0.067. This suggests that differences in educational attainment between counties account for a large part of the earlier observed association between occupational greediness and FLPR. However, once geographical rootedness, $\beta_{R}$, is included, occupational greediness’s coefficient increases to 0.085. This suggests that the relationships among these three variables are partially overlapping.
+
+### Heterogeneity in the Estimated Association between Childcare Burden and FLPR
+
+Using the fully adjusted model, we now examine the predicted FLPR associated with moving from average childcare burden to one standard deviation above average at low, average, and high levels of greedy occupation share. The following table and figure show clearly different slopes of the relationship between childcare burden and FLPR across occupational contexts. 
+
+![](assets/heterogeneity_plot.png)
+
+::: {#tbl-2}
+| Occupational Profile | Mean change in FLPR | SD | 89% credible interval |
+|:---|---:|---:|---:|
+| Low greedy (-1 SD) | -3.40 | 0.92 | [-4.90, -1.90] |
+| Average greedy (0 SD) | -1.91 | 0.60 | [-2.90, -0.96] |
+| High greedy (+1 SD) | -0.59 | 0.72 | [-1.70, 0.55] |
+
+: Posterior estimated change in maternal FLPR associated with an increase in childcare burden from the sample mean to one SD above the mean, evaluated at low, average, and high levels of occupational greediness.
 :::
 
-Looking first at column (1), when we estimate equation (-@eq-5) by regressing income per person on ruggedness while allowing for a differential effect in African countries, we find empirical confirmation for our hypotheses 1 and 2: ruggedness has a direct negative effect on income per person, but within Africa, there is an additional positive effect. The coefficient for ruggedness is negative and statistically significant (i.e., $\beta_1 < 0$ in equation (-@eq-5)), while the coefficient for ruggedness interacted with an indicator variable for Africa is positive and statistically significant (i.e., β2 > 0 in equation (5)). According to the estimated coefficients, within Africa the indirect positive effect swamps the direct negative effect. Adding up the negative direct effect (-0.078) and the positive indirect effect (0.156) yields a total effect of ruggedness on income in African countries of 0.078. Hence, overall, ruggedness has been a blessing for African countries.
+Aligning with existing research, counties with low levels of occupational greediness, shown by the blue line, show the steepest slope. This suggests that maternal FLPR is the most sensitive to childcare cost burden in these counties. Notably, the strength of the association begins to weaken when analyzing counties with average ocucpational greediness, shown in orange, and appears nearly flat when analyzing counties with high occupational greediness, shown in green.
 
-In terms of magnitude, within Africa, a one standard deviation increase in ruggedness increases log real gdp per person by .26 standard deviations. This is the combination of a reduction of income per person by .26 standard deviations due to the negative direct effect and an increase by .51 standard deviations due to the positive indirect effect for Africa. Put differently, for a country at the mean African level of real income per person ($1,784), a one standard deviation increase in ruggedness relative to the African mean (an increase in average uphill slope from 2.69% to 5.74%) is estimated to raise income to $2,264, which is an increase of $481. This magnitude is quite substantial, especially given that we are considering one very specific geographic characteristic.
+## Discussion
 
-Next, in column (2), we repeat the estimation restricting the effect of ruggedness on income to be the same for African and non-African countries. Consistent with hypothesis 3 that the negative direct effect of ruggedness is biased upwards towards zero when the positive effect of ruggedness in Africa is not taken into account, the estimated coefficient of ruggedness in column (2) is greater than the coefficient in column (1) (i.e., $\beta_5$ in equation (-@eq-6) is greater than $\beta_1$ in equation (-@eq-5)).
+These results align with existing research, suggesting that higher childcare burden is associated with lower maternal labor force participation. They also expand existing analysis of the naive association between childcare cost burden and maternal FLPR by showing that this relationship varies across county occupational contexts. The well-established negative association between childcare burden and maternal FLPR is highest amongst counties with a relatively low share of women in greedy occupations and weakens significantly as greedy occupation share increases.
 
-### Robustness with respect to omitted geographical variables
+This observed occupational hetereogenity aligns with the intuition that women in communities with high concentrations of high-earning, prestigious professions may be less likely to leave the labor force when responding to increases in childcare costs. However, because this model uses county-level estimates, it should not be interpreted to mean that individual women employed in greedy occupations are responsible for this effect heterogenity.
 
-When interpreting our core results regarding the relationship between ruggedness and current economic outcomes, a possible source of concern is that they may be driven, at least in part, by other geographical features correlated with ruggedness. Our primary interest is in the differential effect of ruggedness for Africa. In order for an omitted variable to bias this estimate, it must be the case that, either the relationship between income and the omitted factor is different within Africa and outside of Africa, or the relationship between the omitted factor and ruggedness is different within and outside of Africa.
+Including bachelor's plus share weakens the observed association between occupational greediness and maternal FLPR, indicating that county level differences in educational attainment partially account for this association. However, it notably does not reduce the effect of the interaction between childcare burden and occupation greediness. The model results also showed a positive association between Geographic rootedness and maternal FLPR. Interestingly, the strength of this association was even larger than educational attainment, a well-known factor strongly associated with FLPR. If geographic rootedness provides a fair proxy of familial childcare availability, this suggests that access to such support reduces childare constraints, allowing mothers to remain in the workforce.
 
-A possible curse of mineral resources (Sachs and Warner, 2001, Mehlum, Moene, and Torvik, 2006b) could potentially affect our results for precisely this reason. If diamond deposits are correlated with ruggedness, and diamond production increases income outside of Africa, but decreases income within Africa because of poor institutions, then this could potentially bias the estimated differential effect of ruggedness.^[See Mehlum et al. (2006b) and Robinson, Torvik, and Verdier (2006) for theory and empirical evidence supporting such a differential effect of resource endowments.] To deal with potentially omitted differential effects such as this, we must add to our baseline specification of column (1) both the control variable (diamond production 1994–2000 normalized by land area in this case) and an interaction of the control variable with our Africa indicator variable to allow the effect of the control variable to differ for Africa. Column (3) shows that the effect of diamonds is positive and statistically significant in general, but that for African countries there is a differential negative and statistically significant effect that nearly wipes out the general positive effect. Nevertheless, the inclusion of this control variable and its interaction with the Africa indicator variable does not alter our results regarding the relationship between ruggedness and current economic outcomes.^[10We have also tried including measures of other mineral resources, oil reserves and gold in particular, again together with an African interaction term but found no significant effects.]
+This paper provides important context to researchers and policy-makers by shedding a light on occupational context, which may explain why estimated employment responses to childcare affordability interventions vary.
 
-A related argument can be made about tropical diseases. If rugged areas are less prone to tropical diseases within Africa but not in the rest of the world, then this could potentially bias the estimated differential effect of ruggedness. To check this possibility, in column (4) we add to our baseline specification of column (1) a variable measuring the percentage of each country that has any of the four tropical climates in the Köppen-Geiger climate classification, as well as an interaction of this variable with the Africa indicator variable. We see that there is a statistically significant negative relationship between tropical climate and income, but that the effect is no different for African countries. Our core results are, once again, unchanged.^[If instead of looking at tropical diseases in general, we focus on malaria in particular by including an index of the stability of malaria transmission from Kiszewski, Mellinger, Spielman, Malaney, Sachs, and Sachs (2004) and the corresponding African interaction, our core results are also unchanged. The same is true if we include distance to the equator and the corresponding African interaction.]
+## Limitations
 
-Given the arguments of Mellinger et al. (2000) and others that coastal access and soil quality are fundamental determinants of world income differences, in columns (5) and (6) we control respectively for the average distance to the nearest ice-free coast for each country (in thousands of kilometres) and for the percentage of each country's land that is desert. As before, we also include an interaction of each of these variables with the African indicator variable. Our results remain robust. Finally, in column (7) we include all these geographic controls and their corresponding interaction terms. We find again that our baseline results from column (1) are robust to controlling for other geographic characteristics that could have a differential effect in Africa.
+### County-Level Ecological Inference
 
-### Robustness with respect to influential observations
+### Low Overall Predictive Power and Omitted Factors
 
-Next, we check whether the results from @tbl-1 are driven by some particularly influential outliers. Figure 2 shows a scatter plot of income per person against ruggedness for African countries (top panel) and non-African countries (bottom panel). In these plots of the raw data, one observes a positive relationship for African countries and a negative relationship for non-African countries. However, a number of observations appear as clear outliers in terms of their ruggedness, particularly, Lesotho and the Seychelles in Africa, and Switzerland, Nepal, Tajikistan, and Kyrgyzstan outside of Africa. Our first sensitivity check estimates our baseline specification after dropping these six observations, without and with our full set of control variables. Results are presented in columns (1) and (2) of table 2.^[In the scatter plot, one can also observe several small countries that have either unusually high or unusually low ruggedness. These observations are not particularly influential for our results, which remain qualitatively unchanged if we drop the 20 countries in our regressions with an area below 5,000 square kilometres (which is slightly above the area of Seychelles) or if we estimate a weighted least squares regression using countries' areas as weights. A related concern is that our results may be driven by “atypical” African countries, such as island countries or North African countries. Our results are also robust to omitting these “atypical” African countries from the sample.]
+While the estimated associations between variables remain relatively consistent across models, each model only explains a small amount of variation in maternal FLPR between counties. 
 
-We next adopt a more systematic approach to deal with influential observations, and remove influential observations using each observation's `DFBETA`, which is a measure of the difference in the estimated coefficient for the ruggedness interaction (scaled by the standard error) when the observation is included and when it is excluded. Following @belsley_regression_1980, we omit all observations for which $|\texttt{DFBETA}_i| > 2 / \sqrt{N}$, where $N$ is the number of observations, in our case 170.^[Using other measures and rules for the omission of influential observations, such as dfits, Cook's distance or Welsch distance, provide very similar results] Results are presented in columns (3) and (4) of table 2.
-
-In all four of the regressions with omitted observations, the ruggedness coefficient remains negative and, except in column (1), statistically significant. The ruggedness interaction remains positive and statistically significant, confirming that there exists a differential effect of ruggedness for Africa.
-
-The reason why, in figure 2, a small number of observations appear as particularly influential is because the ruggedness measure is skewed to the left, leaving a small number of observations with large values. We remedy this in two ways. First, we take the natural log of ruggedness and use this in the estimating equations. This draws in the outlying observations in the regression. The estimates of interest, reported in columns (5) and (6), remain robust to this transformation. However, looking at the natural log of ruggedness variable, one finds that the measure is no longer left skewed, but it is now right skewed, with a small number of influential observations taking on very small values. Because of this, we pursue a second strategy where we perform a zero skewness Box-Cox power transformation on the ruggedness variable to obtain a measure with zero skewness. The relationships between income and the zero-skewness ruggedness measure are shown in @fig-3. It is evident that the income-ruggedness relationships using zero-skewness measure do not feature influential, outlying observations. In addition, a different relationship within Africa and outside of Africa is still apparent in the scatter plots of the data. Estimates using the zero-skewness measure are reported in columns (7) and (8). The estimates confirm the impression given by the figures. There is a positive and significant differential effect of ruggedness within Africa.
-
-```{r, dev = "svg", dev.args=list(bg="transparent")}
-#| label: fig-3
-#| warning: false
-#| code-fold: true
-#| fig-align: center
-#| fig-cap: Results from @nunn_ruggedness_2012, where the causal impact of terrain ruggedness on present-day GDP per capita **reverses direction** when considering African vs. non-African countries!
-library(tidyverse) |> suppressPackageStartupMessages()
-rug_df <- read_csv("assets/rugged_data.csv", show_col_types=FALSE)
-# Compute Box-Cox params
-bc_params <- car::powerTransform(
-  object = cbind(
-    rug_df$rgdppc_2000,
-    rug_df$rugged
-  )
-)
-rug_df <- rug_df |> mutate(
-  continent = ifelse(cont_africa == 1, "African", "Non-African"),
-  gdpc_transformed = rgdppc_2000_m ^ bc_params$lambda[1],
-  rugged_transformed = rugged ^ bc_params$lambda[2],
-)
-rug_df |> ggplot(aes(
-  x = rugged_transformed,
-  y = gdpc_transformed
-)) +
-  geom_text(aes(label=isocode), size=3) +
-  geom_smooth(method="lm", fullrange=TRUE) +
-  facet_wrap(~ continent) +
-  theme_classic() +
-  theme(
-    panel.background = ggplot2::element_rect(fill='transparent'),
-    plot.background = ggplot2::element_rect(fill='transparent', color=NA),
-    plot.title = element_text(hjust=0.5),
-  ) +
-  labs(
-    title="Differential Effects of Ruggedness by Continent",
-    x="Terrain Ruggedness",
-    y="Log GDP Per Capita, 2000",
-  )
-```
-
-### Is the effect of ruggedness also different for other areas?
-
-An obvious objection to the above results is that we have only allowed the effect of ruggedness on economic outcomes to differ for African countries. To check whether other continents of the world also experience a differential impact of ruggedness, we add to our baseline specification indicator variables for other continents as well as interactions between ruggedness and these indicator variables. Estimates are reported in table 3. The first column reports our baseline estimates for comparison. Column (2) includes indicator variables for Europe, North America, South America, and Oceania (the omitted continent is Asia), and allows the effect of ruggedness to differ for each continent. Overall, there is no evidence of differential effects for continents other than Africa. The one exception is Europe, which is estimated to have a positive differential ruggedness effect. However, this is driven by just one country, Switzerland. When we omit Switzerland in column (3), even the differential effect for Europe disappears.
-
-A final possible source of concern is that perhaps the differential effect of ruggedness for Africa is not really an African effect. Perhaps it arises because the effect of ruggedness on income differs for areas with some geographic characteristic that happens to be particularly prevalent in Africa. For instance, it could be that in countries where a large fraction of the territory experiences tropical climates, rugged areas are cooler, dryer, or even less prone to tropical diseases. If tropical climates are particularly prevalent in Africa (they characterize 34.3% of land in Africa compared with 19.2% of the rest of the world excluding Antarctica), perhaps the interaction between ruggedness and the Africa indicator is proxying for an interaction between ruggedness and tropical climates. Similarly, it could be that in countries where a large fraction of the territory is covered by desert, rugged areas are less arid. If deserts are particularly prevalent in Africa (they cover 12.9% of land in Africa compared with 3.4% of the rest of the world excluding Antarctica), perhaps the interaction between ruggedness and the Africa indicator is proxying for an interaction between ruggedness and desert.
-
-We consider these possibilities in column (4) of table 3. There, we add to our baseline estimation variables measuring the percentage of each country with tropical climates and the percentage of each country covered by desert (these can be seen as playing the same role as the Africa indicator) as well as interactions between ruggedness and these two variables (these can be seen as playing the same role as the interaction between ruggedness and the Africa indicator). The coefficients of interest measuring the direct effect of ruggedness and the differential effect for Africa change little and remain statistically significant.^[One could also think that certain countries, because of inferior access to technology or poor governance, are worse equipped to mitigate the direct contemporaneous effect of ruggedness. However, note that this would work against estimating a positive differential effect of ruggedness in Africa since access to technology and governance are likely to be worse on average in Africa. A further concern is that the tropical climate measure is potentially endogenous to ruggedness, since some areas may not be classified as tropical if they are rugged. A preferable measure would quantify how tropical a climate would be if it were not rugged. Using a country's distance from the equator as a proxy for this measure yields very similar results.]
-
-## Do slave exports account for Africa's differential effect? {#sec-5}
-
-Having established a robust differential impact of ruggedness within Africa, we now examine whether Africa's slave trades can account for this differential effect. We do this in two steps. First, we show that there were fewer slaves exported from more rugged areas, even after we control for initial population density and other potential geographic determinants of slave exports. This involves estimating equation (-@eq-3) from @sec-3. Second, we estimate equation (-@eq-7) from @sec-3 to show that slave exports can fully account for the differential effect of ruggedness in Africa.
-
-We use data from @nunn_longterm_2008 on the number of slaves exported from each country in Africa between 1400 and 1900 during Africa's four slave trades. We normalize total slave exports by the land area of each country. Because the variable is extremely skewed to the left and some countries have zero slave exports, we take the natural logarithm of one plus the measure, i.e. $\ln(1 + \text{slave exports} / \text{area})$.
-
-Column (1) in table 4 reports the unconditional relationship between slave exports and ruggedness for all 49 African countries included in our previous estimations. It shows that there is a negative and statistically significant relationship between ruggedness and slave exports, and that ruggedness alone explains about one third of the variation in slave exports. In the remaining columns of the table we include additional variables to address several potential concerns regarding the relationship between ruggedness and slave exports. First, it is possible that the reason fewer slaves were taken from countries with higher average uphill slope is that there were fewer people living in more rugged areas, not because rugged terrain provided protection. To allow for this possibility, in column (2) we control for population density in 1500. We see that the negative relationship between ruggedness and slave exports is robust, suggesting that the relationship is not working through lower initial population density in rugged areas. Next, to check whether ruggedness is proxying for other geographical characteristics that could have affected slave exports, in column (3) we control for the proportion of countries' land area that has tropical climates, the proportion that is desert, and the average distance to the coast. The negative relationship between slave exports and ruggedness remains robust to these controls. The last set of controls that we introduce are the distance from each country to the closest slave market in each of the four slave trades (in thousands of kilometres). These distances were shown by @nunn_longterm_2008 to be important determinants of slave exports. Again, the ruggedness coefficient remains negative and significant when these distances are controlled for. In the final column of the table we include all control variables simultaneously. The significant negative relationship between slave exports and ruggedness remains. Overall, the results of table 4 confirm the historical accounts suggesting that irregular terrain was an effective means of avoiding the slave trades.
-
-Having shown that ruggedness has a differential effect in Africa and that ruggedness deterred slave exports, we now check to what extent slave exports can account for Africa's differential effect. We do this by estimating equation (-@eq-7) from @sec-3, with results reported in table 5. Column (1) reproduces, for comparison, our estimates of equation (5), which does not control for slave exports. In columns (2), we estimate equation (7), which is identical to equation (5), except that slave exports are also included in the estimating equation. Columns (3) and (4) report the same estimations as (1) and (2) respectively with the same controls used in @sec-4. With or without the full set of controls, when slave exports are controlled for, the estimated differential effect of ruggedness within Africa disappears. The estimated coefficient is essentially zero, and is no longer statistically significant. This confirms hypothesis 5, and provides support for the explanation that the differential effect of ruggedness arises because of the slave trades. The estimates also support hypotheses 4 and 6. Slave exports have had a negative and statistically significant effect on economic outcomes, and once slave exports are accounted for, the estimated direct effect of ruggedness on income is negative and statistically significant.
-
-## The distribution of population relative to rugged areas
-
-We have shown that the data support our hypothesis that, within Africa, rugged terrain has had an indirect benefit on current economic outcomes because inhabitants of rugged areas were better able to protect themselves from the slave trades and avoid their long-run negative consequences. In this section, we also show that this benefit may have come at a cost, since it has meant that African populations are now more concentrated in rugged areas relative to populations in other parts of the world.
-
-### Migration towards rugged areas in response to the slave trades
-
-In parts of Africa threatened by the slave trades, populations in more rugged areas tended to increase relative to populations in less rugged areas. This is because in rugged areas people were better able to defend against the depopulating effects of the slave trades, and also because population tended to migrate to more rugged areas escaping from slave raids (see @cordell_myth_2004). If these relocations were permanent, then populations today will be more concentrated in rugged areas, which we have seen adversely affects income.
-
-There are a number of reasons why past population movements may persist. If there are benefits to agglomeration, then relocation requires a coordinated effort, which may be difficult. As well, many forms of capital, such as wells, buildings, and streets, are very difficult or even impossible to move. Finally, culture and religious beliefs that incorporate the rugged landscape may impede relocation. For example, the Dogon, who inhabit the cliffs of the Badiagara escarpment in Mali, place great spiritual significance on the caves located on the cliffs. They believe that spirits inhabit the cliffs, and they also bury their dead there (Olson, 1996).
-
-We now test whether there is evidence that these historically documented population movements persist until today. We do this by constructing a measure of whether people in a country tend to live in the more or less rugged parts of the country. Consider again @fig-1, which shows the construction of average ruggedness for each 30 arc-second by 30 arc-second cell within a country. Combining these ruggedness data with data from Oak Ridge National Laboratory (2001) on the total ambient population in each cell of the same grid, we calculate the correlation coefficient between population density and terrain ruggedness in each country using 30 by 30 arc-second cells as units (see the appendix for further details). Not surprisingly, we find that for most countries (138 of 170), the correlation coefficient is negative, indicating that populations tend to concentrate in the less rugged parts of the country.
-
-Using our population-ruggedness correlation measure, we first examine whether there is evidence that within Africa the combination of the threat of slave raids with the availability of areas with varying ruggedness created past population movements that have persisted until today. In particular, we estimate the following equation:
-
-$$
-\text{Corr}(\text{Pop. dens}, \text{Ruggedness}) = \eta_0 + \eta_1 \sigma_i^r + \eta_2 x_i + \eta_3 x_i \sigma_i^r + \varepsilon_i,
-$$ {#eq-8}
-
-where $\text{Corr}(\text{Pop. dens}, \text{Ruggedness})$ is our ruggedness-population density correlation measure, $\sigma^r_i$ is the standard deviation of ruggedness within each country, and as before $x_i$ denotes slave exports.
-
-This specification captures the effect that the threat of capture during the slave trades had on population movements. We take our measure of slave exports $x_i$ as a proxy for how exposed a country was to the slave trades. If a country is threatened by the slave trades, then this may cause migration to more rugged areas. However, this will only be feasible if more rugged areas are available to migrate to. Therefore, the movement will depend not only on the threat from the slave trades $x_i$, but also on the variation in terrain ruggedness within the country $\sigma^r_i$. The importance of the interaction between the threat from the slave trades and varying ruggedness for population patterns is captured by the coefficient $\eta_3$ that multiplies $x_i \sigma^r_i$ in the estimating equation. Because slave exports are expected to have a greater effect on migration when there are more differences in terrain ruggedness within a country, we expect $\eta_3 > 0$. At the extreme, if the whole country is equally rugged ($\sigma^r_i = 0$), then there is no benefit to moving to another part of the country in response to the threat of capture. In this case, the relationship between population concentration and slave exports in (-@eq-8) is given by $\eta_2$ only, and therefore we expect $\eta_2 = 0$.
-
-The estimates of @eq-8 are reported in column (1) of table 6. As expected, the estimated coefficient for slave exports alone $\eta_2$ is not significantly different from zero, but the estimated coefficient for slave exports interacted with the standard deviation of ruggedness $\eta_3$ is positive and statistically significant. In column (2) we also control for our set of country geographic characteristics. The results remain robust to this. Overall, the estimates suggest that when populations within African countries were threatened by the slave trades and differences in ruggedness existed, then less rugged areas lost population relative to more rugged areas. This concentration of the population in the more rugged parts of the country persists today.
-
-### Controlling for the distribution of population relative to rugged areas
-
-This evidence that the slave trades caused persistent movements to more rugged areas suggests an additional effect of ruggedness within Africa. Although ruggedness provided protection against the slave trades, this protection came at a cost. Populations became permanently more concentrated in rugged areas. An implication of this is that our estimate of the indirect effect of ruggedness so far (the estimated coefficient for the interaction between ruggedness and the African indicator variable) has captured both the long-run benefit from ruggedness as a deterrent of slave exports, as well as the long-run cost from having population persistently more concentrated in rugged areas in response to the threat of the slave trades. We now try to isolate the benefit from ruggedness as a deterrent of slave exports, by controlling for concentration of population in more rugged areas. We do this through two complementary strategies.
-
-First, we include the ruggedness-population correlation measure in estimating @eq-5, while allowing the effect this variable to differ within Africa and outside of Africa. The results are reported in column (3) and (4) of table 7 (where column (4) incorporates the same controls used in @sec-4). Columns (1) and (2) reproduce our baseline estimates of @tbl-1 for comparison. Consistent with our expectations, when one controls for the current population concentration, the estimated indirect effect of ruggedness (i.e., the coefficient for $\text{ruggedness}\cdot I^\text{Africa}$) increases. In other words, the slave trades have not only created a positive indirect effect of ruggedness on income in Africa, but by encouraging population concentrations in rugged areas, they have also amplified the negative direct impact of ruggedness in Africa. However, the differences between estimates in columns (1) and (2) and between the estimates of columns (3) and (4) are not large, which suggests that the indirect benefits of ruggedness by deterring slave exports in Africa are much greater than the costs that arise from past migrations to more rugged areas.
-
-Second, rather than using a separate measure to control for a country's concentration of its populations in rugged areas, an alternative strategy is to construct a ruggedness measure that weights mean uphill slope by population rather than by land area.^[As detailed in @sec-2, to construct this population-weighted ruggedness measure, we start from the same mean uphill slope for each 30 by 30 arc-second cell as in our standard ruggedness measure but, in averaging this for each country, we weight ruggedness in each 30 by 30 arc-second cell by the share of the country's population located in that 30 by 30 arc-second cell in 2000.] This allows the contemporaneous impact of ruggedness on income to work locally in proportion to population density, so that ruggedness matters more in densely populated areas and not at all in uninhabited areas. The estimates using this alternative ruggedness measure are reported in columns (5) and (6).^[The specifications in columns (5) and (6) are identical to those in columns (1) and (2) respectively, with our standard ruggedness measure replaced by population-weighted ruggedness. The measure of ruggedness interacted with the African indicator variable in columns (5) and (6) is still our standard ruggedness variable, since there is no reason why the strength of the historical channel through which ruggedness affects income should be proportional to current population densities. Nevertheless, interacting population-weighted ruggedness instead of area-weighted ruggedness with the African indicator variable does not affect our qualitative results. As noted earlier, we have chosen to use area-weighted ruggedness up until this last section because it is truly exogenous (whereas the distribution of population is potentially related to various economic, cultural, and institutional factors) and in order to use a common measure to estimate the direct contemporaneous and indirect historical effects of ruggedness.] The direct effect remains negative and significant and the differential effect in Africa remains positive, larger in magnitude than the direct effect, and statistically significant. Once again, comparison with columns (1) and (2) shows that, once we account for the current population concentration across areas with different ruggedness, the estimated indirect effect of ruggedness increases.
 
 ## Conclusions
 
-This paper contributes to the ongoing controversy about whether geography matters mainly because of its direct contemporaneous impact on economic outcomes or because of its interaction with historical events. The issue is not just a matter of intellectual curiosity. It is very important for development policies, and has been the source of much recent debate. Researchers such as @sachs_end_2005 and others, who believe that geography matters primarily through a direct contemporaneous channel, argue that foreign aid and investment are needed to overcome the adverse geographic environments of poor countries. According to this view, with enough foreign aid the adverse effects of geography can be mitigated and alleviated, allowing the world's poorest countries to develop. Arguing against the effectiveness of foreign aid are those such as William Easterly (2006a,b, 2007), who believe that the importance of geography lies in its influence on past events, which have shaped the evolution of societies.^[See in particular @easterly_tropics_2003.] It is felt that the reason for underdevelopment has more to do with poor domestic governance, dysfunctional institutions, or poor economic policies, all of which have deep historical roots. According to this view, aid rather than being a panacea for underdevelopment, is largely ineffective and can even exacerbate poor governance, hampering economic development.^[See @djankov_curse_2008 for recent evidence on this "curse of aid".]
 
-By focusing on a dimension of geography, terrain ruggedness, which varies throughout the world and on a historical event, the slaves trades over the period 1400-1900, which is geographically confined to Africa, we are able to separately identify the direct contemporaneous channel and the indirect historic channel. We find a direct negative effect of ruggedness on income, which is consistent with irregular terrain making agriculture, building, and transportation more costly. We also find that rugged terrain had an additional effect in Africa during the 15th to 19th centuries: it afforded protection to those being raided during Africa's slave trades. By allowing areas to escape from the detrimental effects that the slave trades had on subsequent economic development, ruggedness also creates long-run benefits in Africa through an indirect historic channel. This differential effect of ruggedness is confined to Africa, is not due to geographic features that are particularly prominent in this continent, and can be fully accounted for by the slave trades.
-
-On the whole, the results point to the importance of both a direct and an indirect channel through which ruggedness affects income. In terms of relative magnitudes, within Africa, the positive indirect effect of ruggedness swamps the direct negative effect. In this case, geography matters more through its indirect effect on past events, than it does through it current direct effect on income. However, these results are specific to terrain ruggedness and do not imply that the indirect historic channel dominates the direct contemporaneous channel in other contexts.
-
-Finally, our paper also suggests that the direct and indirect channels can interact in interesting ways. The combination of the threat of slave raids with the availability of areas with varying ruggedness has resulted in a concentration of population in particularly rugged areas that has persisted until today. In doing so, in addition to creating an indirect benefit of ruggedness in Africa, the slave trades have also amplified the negative direct and contemporaneous impact of ruggedness in Africa.
 
 ## References
 
